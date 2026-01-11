@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/ForuMsApi.Test/ForuMsApi.Test.csproj" />
+  <Project Path="src/ForuMsApi/ForuMsApi.csproj" />
+</Solution>

@@ -1,0 +1,9 @@
+{
+  "cliVersion": "3.32.0",
+  "generatorName": "fernapi/fern-csharp-sdk",
+  "generatorVersion": "2.13.0",
+  "generatorConfig": {
+    "client_class_name": "ForumClient"
+  },
+  "sdkVersion": "0.0.32"
+}
