@@ -1,11 +1,11 @@
-# ForuMs C# Library
+# Foru.ms C# Library
 
 ![](https://foru.ms/images/cover.png)
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fforu-ms%2Fcsharp-sdk)
 [![nuget shield](https://img.shields.io/nuget/v/ForuMsApi)](https://nuget.org/packages/ForuMsApi)
 
-The ForuMs C# library provides convenient access to the ForuMs APIs from C#.
+The Foru.ms C# library provides convenient access to the Foru.ms APIs from C#.
 
 ## Table of Contents
 
