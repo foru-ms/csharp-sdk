@@ -12,27 +12,30 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of private messages. Use cursor for pagination.
+    /// </summary>
     /// <example><code>
-    /// await client.PrivateMessages.ListAllPrivateMessagesAsync(new GetPrivateMessagesRequest());
+    /// await client.PrivateMessages.ListAsync(new ListPrivateMessagesRequest());
     /// </code></example>
-    public async Task<GetPrivateMessagesResponse> ListAllPrivateMessagesAsync(
-        GetPrivateMessagesRequest request,
+    public async Task<PrivateMessageListResponse> ListAsync(
+        ListPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
-        if (request.Search != null)
+        if (request.Cursor != null)
         {
-            _query["search"] = request.Search;
+            _query["cursor"] = request.Cursor;
+        }
+        if (request.Query != null)
+        {
+            _query["query"] = request.Query;
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +55,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPrivateMessagesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PrivateMessageListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +91,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,13 +99,16 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
         }
     }
 
+    /// <summary>
+    /// Create a new private message.
+    /// </summary>
     /// <example><code>
-    /// await client.PrivateMessages.CreateAPrivateMessageAsync(
-    ///     new PostPrivateMessagesRequest { RecipientId = "recipientId", Body = "body" }
+    /// await client.PrivateMessages.CreateAsync(
+    ///     new CreatePrivateMessagesRequest { RecipientId = "recipientId", Body = "body" }
     /// );
     /// </code></example>
-    public async Task<PostPrivateMessagesResponse> CreateAPrivateMessageAsync(
-        PostPrivateMessagesRequest request,
+    public async Task<PrivateMessageResponse> CreateAsync(
+        CreatePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -126,11 +132,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostPrivateMessagesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PrivateMessageResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -166,7 +172,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -174,11 +180,14 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a private message by ID or slug (if supported).
+    /// </summary>
     /// <example><code>
-    /// await client.PrivateMessages.GetAPrivateMessageAsync(new GetPrivateMessagesIdRequest { Id = "id" });
+    /// await client.PrivateMessages.RetrieveAsync(new RetrievePrivateMessagesRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetPrivateMessagesIdResponse> GetAPrivateMessageAsync(
-        GetPrivateMessagesIdRequest request,
+    public async Task<PrivateMessageResponse> RetrieveAsync(
+        RetrievePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -203,11 +212,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPrivateMessagesIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PrivateMessageResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -241,7 +250,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -249,13 +258,14 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a private message.
+    /// </summary>
     /// <example><code>
-    /// await client.PrivateMessages.DeleteAPrivateMessageAsync(
-    ///     new DeletePrivateMessagesIdRequest { Id = "id" }
-    /// );
+    /// await client.PrivateMessages.DeleteAsync(new DeletePrivateMessagesRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeletePrivateMessagesIdResponse> DeleteAPrivateMessageAsync(
-        DeletePrivateMessagesIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeletePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -280,11 +290,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeletePrivateMessagesIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -318,7 +328,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -326,13 +336,98 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
         }
     }
 
+    /// <summary>
+    /// Update an existing private message. Only provided fields will be modified.
+    /// </summary>
     /// <example><code>
-    /// await client.PrivateMessages.ListPrivateMessageRepliesAsync(
-    ///     new GetPrivateMessagesIdRepliesRequest { Id = "id" }
-    /// );
+    /// await client.PrivateMessages.UpdateAsync(new UpdatePrivateMessagesRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetPrivateMessagesIdRepliesResponse> ListPrivateMessageRepliesAsync(
-        GetPrivateMessagesIdRepliesRequest request,
+    public async Task<UpdatePrivateMessagesResponse> UpdateAsync(
+        UpdatePrivateMessagesRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var response = await _client
+            .SendRequestAsync(
+                new JsonRequest
+                {
+                    BaseUrl = _client.Options.BaseUrl,
+                    Method = HttpMethodExtensions.Patch,
+                    Path = string.Format(
+                        "private-messages/{0}",
+                        ValueConvert.ToPathParameterString(request.Id)
+                    ),
+                    Body = request,
+                    ContentType = "application/json",
+                    Options = options,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        if (response.StatusCode is >= 200 and < 400)
+        {
+            var responseBody = await response.Raw.Content.ReadAsStringAsync();
+            try
+            {
+                return JsonUtils.Deserialize<UpdatePrivateMessagesResponse>(responseBody)!;
+            }
+            catch (JsonException e)
+            {
+                throw new ForumClientException("Failed to deserialize response", e);
+            }
+        }
+
+        {
+            var responseBody = await response.Raw.Content.ReadAsStringAsync();
+            try
+            {
+                switch (response.StatusCode)
+                {
+                    case 400:
+                        throw new BadRequestError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 401:
+                        throw new UnauthorizedError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 402:
+                        throw new PaymentRequiredError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 404:
+                        throw new NotFoundError(JsonUtils.Deserialize<ErrorResponse>(responseBody));
+                    case 429:
+                        throw new TooManyRequestsError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 500:
+                        throw new InternalServerError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                }
+            }
+            catch (JsonException)
+            {
+                // unable to map error response, throwing generic error
+            }
+            throw new ForumClientApiException(
+                $"Error with status code {response.StatusCode}",
+                response.StatusCode,
+                responseBody
+            );
+        }
+    }
+
+    /// <summary>
+    /// Retrieve a paginated list of replies for Private Message.
+    /// </summary>
+    /// <example><code>
+    /// await client.PrivateMessages.ListRepliesAsync(new ListRepliesPrivateMessagesRequest { Id = "id" });
+    /// </code></example>
+    public async Task<PrivateMessageReplyListResponse> ListRepliesAsync(
+        ListRepliesPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -367,11 +462,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPrivateMessagesIdRepliesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PrivateMessageReplyListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -401,7 +496,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -409,9 +504,12 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
         }
     }
 
+    /// <summary>
+    /// Create a Reply in Private Message.
+    /// </summary>
     /// <example><code>
-    /// await client.PrivateMessages.CreateAReplyInPrivateMessageAsync(
-    ///     new PostPrivateMessagesIdRepliesRequest
+    /// await client.PrivateMessages.CreateReplyAsync(
+    ///     new CreateReplyPrivateMessagesRequest
     ///     {
     ///         Id = "id",
     ///         RecipientId = "recipientId",
@@ -419,8 +517,8 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
     ///     }
     /// );
     /// </code></example>
-    public async Task<PostPrivateMessagesIdRepliesResponse> CreateAReplyInPrivateMessageAsync(
-        PostPrivateMessagesIdRepliesRequest request,
+    public async Task<PrivateMessageReplyResponse> CreateReplyAsync(
+        CreateReplyPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -447,11 +545,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostPrivateMessagesIdRepliesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PrivateMessageReplyResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -485,7 +583,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -494,12 +592,12 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
     }
 
     /// <example><code>
-    /// await client.PrivateMessages.GetAReplyFromPrivateMessageAsync(
-    ///     new GetPrivateMessagesIdRepliesSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.PrivateMessages.RetrieveReplyAsync(
+    ///     new RetrieveReplyPrivateMessagesRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetPrivateMessagesIdRepliesSubIdResponse> GetAReplyFromPrivateMessageAsync(
-        GetPrivateMessagesIdRepliesSubIdRequest request,
+    public async Task<RetrieveReplyPrivateMessagesResponse> RetrieveReplyAsync(
+        RetrieveReplyPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -525,13 +623,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPrivateMessagesIdRepliesSubIdResponse>(
-                    responseBody
-                )!;
+                return JsonUtils.Deserialize<RetrieveReplyPrivateMessagesResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -561,7 +657,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -570,12 +666,12 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
     }
 
     /// <example><code>
-    /// await client.PrivateMessages.DeleteAReplyFromPrivateMessageAsync(
-    ///     new DeletePrivateMessagesIdRepliesSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.PrivateMessages.DeleteReplyAsync(
+    ///     new DeleteReplyPrivateMessagesRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<DeletePrivateMessagesIdRepliesSubIdResponse> DeleteAReplyFromPrivateMessageAsync(
-        DeletePrivateMessagesIdRepliesSubIdRequest request,
+    public async Task<SuccessResponse> DeleteReplyAsync(
+        DeleteReplyPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -601,13 +697,11 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeletePrivateMessagesIdRepliesSubIdResponse>(
-                    responseBody
-                )!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -637,7 +731,7 @@ public partial class PrivateMessagesClient : IPrivateMessagesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

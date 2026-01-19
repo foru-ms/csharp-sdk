@@ -35,6 +35,18 @@ public record WebhookCreate : IJsonOnDeserialized
     [JsonPropertyName("secret")]
     public string? Secret { get; set; }
 
+    /// <summary>
+    /// Whether webhook is active
+    /// </summary>
+    [JsonPropertyName("active")]
+    public bool? Active { get; set; }
+
+    /// <summary>
+    /// Custom extended data
+    /// </summary>
+    [JsonPropertyName("extendedData")]
+    public Dictionary<string, object?>? ExtendedData { get; set; }
+
     [JsonIgnore]
     public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();
 

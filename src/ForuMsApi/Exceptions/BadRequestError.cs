@@ -5,7 +5,7 @@ namespace ForuMsApi;
 /// </summary>
 [Serializable]
 public class BadRequestError(ErrorResponse body)
-    : ForuMsApiApiException("BadRequestError", 400, body)
+    : ForumClientApiException("BadRequestError", 400, body)
 {
     /// <summary>
     /// The body of the response that triggered the exception.

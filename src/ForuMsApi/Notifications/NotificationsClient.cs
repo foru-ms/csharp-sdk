@@ -12,27 +12,34 @@ public partial class NotificationsClient : INotificationsClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of notifications. Use cursor for pagination.
+    /// </summary>
     /// <example><code>
-    /// await client.Notifications.ListAllNotificationsAsync(new GetNotificationsRequest());
+    /// await client.Notifications.ListAsync(new ListNotificationsRequest());
     /// </code></example>
-    public async Task<GetNotificationsResponse> ListAllNotificationsAsync(
-        GetNotificationsRequest request,
+    public async Task<NotificationListResponse> ListAsync(
+        ListNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
-        if (request.Search != null)
+        if (request.Cursor != null)
         {
-            _query["search"] = request.Search;
+            _query["cursor"] = request.Cursor;
+        }
+        if (request.Status != null)
+        {
+            _query["status"] = request.Status.Value.Stringify();
+        }
+        if (request.UserId != null)
+        {
+            _query["userId"] = request.UserId;
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +59,11 @@ public partial class NotificationsClient : INotificationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetNotificationsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<NotificationListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +95,7 @@ public partial class NotificationsClient : INotificationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,13 +103,16 @@ public partial class NotificationsClient : INotificationsClient
         }
     }
 
+    /// <summary>
+    /// Create a new notification.
+    /// </summary>
     /// <example><code>
-    /// await client.Notifications.CreateANotificationAsync(
-    ///     new PostNotificationsRequest { UserId = "userId", Type = "type" }
+    /// await client.Notifications.CreateAsync(
+    ///     new CreateNotificationsRequest { UserId = "userId", Type = "type" }
     /// );
     /// </code></example>
-    public async Task<PostNotificationsResponse> CreateANotificationAsync(
-        PostNotificationsRequest request,
+    public async Task<NotificationResponse> CreateAsync(
+        CreateNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -126,11 +136,11 @@ public partial class NotificationsClient : INotificationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostNotificationsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<NotificationResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -166,7 +176,7 @@ public partial class NotificationsClient : INotificationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -174,11 +184,14 @@ public partial class NotificationsClient : INotificationsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a notification by ID or slug (if supported).
+    /// </summary>
     /// <example><code>
-    /// await client.Notifications.GetANotificationAsync(new GetNotificationsIdRequest { Id = "id" });
+    /// await client.Notifications.RetrieveAsync(new RetrieveNotificationsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetNotificationsIdResponse> GetANotificationAsync(
-        GetNotificationsIdRequest request,
+    public async Task<NotificationResponse> RetrieveAsync(
+        RetrieveNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -203,11 +216,11 @@ public partial class NotificationsClient : INotificationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetNotificationsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<NotificationResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -241,7 +254,7 @@ public partial class NotificationsClient : INotificationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -249,11 +262,14 @@ public partial class NotificationsClient : INotificationsClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a notification.
+    /// </summary>
     /// <example><code>
-    /// await client.Notifications.DeleteANotificationAsync(new DeleteNotificationsIdRequest { Id = "id" });
+    /// await client.Notifications.DeleteAsync(new DeleteNotificationsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteNotificationsIdResponse> DeleteANotificationAsync(
-        DeleteNotificationsIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -278,11 +294,11 @@ public partial class NotificationsClient : INotificationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteNotificationsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -316,7 +332,7 @@ public partial class NotificationsClient : INotificationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -324,11 +340,14 @@ public partial class NotificationsClient : INotificationsClient
         }
     }
 
+    /// <summary>
+    /// Update an existing notification. Only provided fields will be modified.
+    /// </summary>
     /// <example><code>
-    /// await client.Notifications.UpdateANotificationAsync(new PatchNotificationsIdRequest { Id = "id" });
+    /// await client.Notifications.UpdateAsync(new UpdateNotificationsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchNotificationsIdResponse> UpdateANotificationAsync(
-        PatchNotificationsIdRequest request,
+    public async Task<UpdateNotificationsResponse> UpdateAsync(
+        UpdateNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -355,11 +374,11 @@ public partial class NotificationsClient : INotificationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchNotificationsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdateNotificationsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -397,7 +416,7 @@ public partial class NotificationsClient : INotificationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

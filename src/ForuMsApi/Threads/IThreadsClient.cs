@@ -2,119 +2,137 @@ namespace ForuMsApi;
 
 public partial interface IThreadsClient
 {
-    Task<GetThreadsResponse> ListAllThreadsAsync(
-        GetThreadsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<PostThreadsResponse> CreateAThreadAsync(
-        PostThreadsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<GetThreadsIdResponse> GetAThreadAsync(
-        GetThreadsIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<DeleteThreadsIdResponse> DeleteAThreadAsync(
-        DeleteThreadsIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<PatchThreadsIdResponse> UpdateAThreadAsync(
-        PatchThreadsIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<GetThreadsIdPostsResponse> ListThreadPostsAsync(
-        GetThreadsIdPostsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<GetThreadsIdPostsSubIdResponse> GetAPostFromThreadAsync(
-        GetThreadsIdPostsSubIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<DeleteThreadsIdPostsSubIdResponse> DeleteAPostFromThreadAsync(
-        DeleteThreadsIdPostsSubIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<GetThreadsIdReactionsResponse> ListThreadReactionsAsync(
-        GetThreadsIdReactionsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<PostThreadsIdReactionsResponse> CreateAReactionInThreadAsync(
-        PostThreadsIdReactionsRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of threads. Use cursor for pagination.
+    /// </summary>
+    Task<ThreadListResponse> ListAsync(
+        ListThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
     /// <summary>
-    /// Removes the authenticated user's reaction. No subId needed.
+    /// Create a new thread.
     /// </summary>
-    Task<DeleteThreadsIdReactionsResponse> RemoveYourReactionFromThreadAsync(
-        DeleteThreadsIdReactionsRequest request,
+    Task<ThreadResponse> CreateAsync(
+        CreateThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetThreadsIdReactionsSubIdResponse> GetAReactionFromThreadAsync(
-        GetThreadsIdReactionsSubIdRequest request,
+    /// <summary>
+    /// Retrieve a thread by ID or slug (if supported).
+    /// </summary>
+    Task<ThreadResponse> RetrieveAsync(
+        RetrieveThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteThreadsIdReactionsSubIdResponse> DeleteAReactionFromThreadAsync(
-        DeleteThreadsIdReactionsSubIdRequest request,
+    /// <summary>
+    /// Permanently delete a thread.
+    /// </summary>
+    Task<SuccessResponse> DeleteAsync(
+        DeleteThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetThreadsIdSubscribersResponse> ListThreadSubscribersAsync(
-        GetThreadsIdSubscribersRequest request,
+    /// <summary>
+    /// Update an existing thread. Only provided fields will be modified.
+    /// </summary>
+    Task<UpdateThreadsResponse> UpdateAsync(
+        UpdateThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetThreadsIdSubscribersSubIdResponse> GetASubscriberFromThreadAsync(
-        GetThreadsIdSubscribersSubIdRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of posts for Thread.
+    /// </summary>
+    Task<ThreadPostListResponse> ListPostsAsync(
+        ListPostsThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteThreadsIdSubscribersSubIdResponse> DeleteASubscriberFromThreadAsync(
-        DeleteThreadsIdSubscribersSubIdRequest request,
+    Task<RetrievePostThreadsResponse> RetrievePostAsync(
+        RetrievePostThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetThreadsIdPollResponse> GetThreadPollAsync(
-        GetThreadsIdPollRequest request,
+    Task<SuccessResponse> DeletePostAsync(
+        DeletePostThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PostThreadsIdPollResponse> CreateThreadPollAsync(
-        PostThreadsIdPollRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of reactions for Thread.
+    /// </summary>
+    Task<ThreadReactionListResponse> ListReactionsAsync(
+        ListReactionsThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PatchThreadsIdPollResponse> UpdateThreadPollAsync(
-        PatchThreadsIdPollRequest request,
+    /// <summary>
+    /// Create a Reaction in Thread.
+    /// </summary>
+    Task<ThreadReactionResponse> CreateReactionAsync(
+        CreateReactionThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<SuccessResponse> DeleteReactionAsync(
+        DeleteReactionThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<RetrieveReactionThreadsResponse> RetrieveReactionAsync(
+        RetrieveReactionThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Retrieve a paginated list of subscribers for Thread.
+    /// </summary>
+    Task<ThreadSubscriberListResponse> ListSubscribersAsync(
+        ListSubscribersThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<RetrieveSubscriberThreadsResponse> RetrieveSubscriberAsync(
+        RetrieveSubscriberThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<SuccessResponse> DeleteSubscriberAsync(
+        DeleteSubscriberThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<ThreadPollResponse> RetrievePollAsync(
+        RetrievePollThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<ThreadPollResponse> CreatePollAsync(
+        CreatePollThreadsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<ThreadPollResponse> UpdatePollAsync(
+        UpdatePollThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

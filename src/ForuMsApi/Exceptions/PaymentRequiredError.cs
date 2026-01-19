@@ -5,7 +5,7 @@ namespace ForuMsApi;
 /// </summary>
 [Serializable]
 public class PaymentRequiredError(ErrorResponse body)
-    : ForuMsApiApiException("PaymentRequiredError", 402, body)
+    : ForumClientApiException("PaymentRequiredError", 402, body)
 {
     /// <summary>
     /// The body of the response that triggered the exception.

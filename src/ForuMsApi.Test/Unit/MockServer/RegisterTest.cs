@@ -20,7 +20,34 @@ public class RegisterTest : BaseMockServerTest
 
         const string mockResponse = """
             {
-              "token": "token"
+              "data": {
+                "token": "token",
+                "user": {
+                  "id": "id",
+                  "username": "username",
+                  "email": "email",
+                  "displayName": "displayName",
+                  "bio": "bio",
+                  "signature": "signature",
+                  "url": "url",
+                  "postsCount": 1,
+                  "threadsCount": 1,
+                  "isOnline": true,
+                  "lastSeenAt": "lastSeenAt",
+                  "roles": [
+                    {
+                      "id": "id",
+                      "name": "name",
+                      "slug": null
+                    }
+                  ],
+                  "extendedData": {
+                    "key": "value"
+                  },
+                  "createdAt": "createdAt",
+                  "updatedAt": "updatedAt"
+                }
+              }
             }
             """;
 
@@ -41,7 +68,7 @@ public class RegisterTest : BaseMockServerTest
             );
 
         var response = await Client.Auth.RegisterAsync(
-            new PostAuthRegisterRequest
+            new RegisterAuthRequest
             {
                 Username = "username",
                 Email = "email",
@@ -50,8 +77,7 @@ public class RegisterTest : BaseMockServerTest
         );
         Assert.That(
             response,
-            Is.EqualTo(JsonUtils.Deserialize<PostAuthRegisterResponse>(mockResponse))
-                .UsingDefaults()
+            Is.EqualTo(JsonUtils.Deserialize<RegisterResponse>(mockResponse)).UsingDefaults()
         );
     }
 }

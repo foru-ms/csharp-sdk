@@ -18,7 +18,9 @@ public class ResetPasswordTest : BaseMockServerTest
 
         const string mockResponse = """
             {
-              "message": "message"
+              "data": {
+                "message": "message"
+              }
             }
             """;
 
@@ -39,12 +41,11 @@ public class ResetPasswordTest : BaseMockServerTest
             );
 
         var response = await Client.Auth.ResetPasswordAsync(
-            new PostAuthResetPasswordRequest { Password = "password" }
+            new ResetPasswordAuthRequest { Password = "password" }
         );
         Assert.That(
             response,
-            Is.EqualTo(JsonUtils.Deserialize<PostAuthResetPasswordResponse>(mockResponse))
-                .UsingDefaults()
+            Is.EqualTo(JsonUtils.Deserialize<ResetPasswordResponse>(mockResponse)).UsingDefaults()
         );
     }
 }

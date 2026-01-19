@@ -12,27 +12,28 @@ public partial class SsOsClient : ISsOsClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of ssos. Use cursor for pagination.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
     /// <example><code>
-    /// await client.SsOs.ListAllSsOsAsync(new GetSsoRequest());
+    /// await client.SsOs.ListAsync(new ListSsOsRequest());
     /// </code></example>
-    public async Task<GetSsoResponse> ListAllSsOsAsync(
-        GetSsoRequest request,
+    public async Task<SsoListResponse> ListAsync(
+        ListSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
-        if (request.Search != null)
+        if (request.Cursor != null)
         {
-            _query["search"] = request.Search;
+            _query["cursor"] = request.Cursor;
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +53,11 @@ public partial class SsOsClient : ISsOsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetSsoResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SsoListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +89,7 @@ public partial class SsOsClient : ISsOsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,22 +97,23 @@ public partial class SsOsClient : ISsOsClient
         }
     }
 
+    /// <summary>
+    /// Create an new sso.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
     /// <example><code>
-    /// await client.SsOs.CreateAnSsoAsync(
-    ///     new PostSsoRequest
+    /// await client.SsOs.CreateAsync(
+    ///     new CreateSsOsRequest
     ///     {
-    ///         Name = "name",
-    ///         ClientId = "clientId",
-    ///         ClientSecret = "clientSecret",
-    ///         Issuer = "issuer",
-    ///         AuthorizationEndpoint = "authorizationEndpoint",
-    ///         TokenEndpoint = "tokenEndpoint",
-    ///         UserInfoEndpoint = "userInfoEndpoint",
+    ///         Provider = CreateSsOsRequestProvider.Okta,
+    ///         Domain = "domain",
+    ///         Config = new Dictionary&lt;string, object?&gt;() { { "key", "value" } },
     ///     }
     /// );
     /// </code></example>
-    public async Task<PostSsoResponse> CreateAnSsoAsync(
-        PostSsoRequest request,
+    public async Task<SsoResponse> CreateAsync(
+        CreateSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -135,11 +137,11 @@ public partial class SsOsClient : ISsOsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostSsoResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SsoResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -175,7 +177,7 @@ public partial class SsOsClient : ISsOsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -183,11 +185,16 @@ public partial class SsOsClient : ISsOsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve an sso by ID or slug (if supported).
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
     /// <example><code>
-    /// await client.SsOs.GetAnSsoAsync(new GetSsoIdRequest { Id = "id" });
+    /// await client.SsOs.RetrieveAsync(new RetrieveSsOsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetSsoIdResponse> GetAnSsoAsync(
-        GetSsoIdRequest request,
+    public async Task<SsoResponse> RetrieveAsync(
+        RetrieveSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -209,11 +216,11 @@ public partial class SsOsClient : ISsOsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetSsoIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SsoResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -247,7 +254,7 @@ public partial class SsOsClient : ISsOsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -255,11 +262,16 @@ public partial class SsOsClient : ISsOsClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete an sso.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
     /// <example><code>
-    /// await client.SsOs.DeleteAnSsoAsync(new DeleteSsoIdRequest { Id = "id" });
+    /// await client.SsOs.DeleteAsync(new DeleteSsOsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteSsoIdResponse> DeleteAnSsoAsync(
-        DeleteSsoIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -281,11 +293,11 @@ public partial class SsOsClient : ISsOsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteSsoIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -319,7 +331,7 @@ public partial class SsOsClient : ISsOsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -327,11 +339,16 @@ public partial class SsOsClient : ISsOsClient
         }
     }
 
+    /// <summary>
+    /// Update an existing sso. Only provided fields will be modified.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
     /// <example><code>
-    /// await client.SsOs.UpdateAnSsoAsync(new PatchSsoIdRequest { Id = "id" });
+    /// await client.SsOs.UpdateAsync(new UpdateSsOsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchSsoIdResponse> UpdateAnSsoAsync(
-        PatchSsoIdRequest request,
+    public async Task<UpdateSsOsResponse> UpdateAsync(
+        UpdateSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -355,11 +372,11 @@ public partial class SsOsClient : ISsOsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchSsoIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdateSsOsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -397,7 +414,7 @@ public partial class SsOsClient : ISsOsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

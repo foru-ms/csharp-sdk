@@ -2,50 +2,77 @@ namespace ForuMsApi;
 
 public partial interface IPrivateMessagesClient
 {
-    Task<GetPrivateMessagesResponse> ListAllPrivateMessagesAsync(
-        GetPrivateMessagesRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of private messages. Use cursor for pagination.
+    /// </summary>
+    Task<PrivateMessageListResponse> ListAsync(
+        ListPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PostPrivateMessagesResponse> CreateAPrivateMessageAsync(
-        PostPrivateMessagesRequest request,
+    /// <summary>
+    /// Create a new private message.
+    /// </summary>
+    Task<PrivateMessageResponse> CreateAsync(
+        CreatePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetPrivateMessagesIdResponse> GetAPrivateMessageAsync(
-        GetPrivateMessagesIdRequest request,
+    /// <summary>
+    /// Retrieve a private message by ID or slug (if supported).
+    /// </summary>
+    Task<PrivateMessageResponse> RetrieveAsync(
+        RetrievePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeletePrivateMessagesIdResponse> DeleteAPrivateMessageAsync(
-        DeletePrivateMessagesIdRequest request,
+    /// <summary>
+    /// Permanently delete a private message.
+    /// </summary>
+    Task<SuccessResponse> DeleteAsync(
+        DeletePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetPrivateMessagesIdRepliesResponse> ListPrivateMessageRepliesAsync(
-        GetPrivateMessagesIdRepliesRequest request,
+    /// <summary>
+    /// Update an existing private message. Only provided fields will be modified.
+    /// </summary>
+    Task<UpdatePrivateMessagesResponse> UpdateAsync(
+        UpdatePrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PostPrivateMessagesIdRepliesResponse> CreateAReplyInPrivateMessageAsync(
-        PostPrivateMessagesIdRepliesRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of replies for Private Message.
+    /// </summary>
+    Task<PrivateMessageReplyListResponse> ListRepliesAsync(
+        ListRepliesPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetPrivateMessagesIdRepliesSubIdResponse> GetAReplyFromPrivateMessageAsync(
-        GetPrivateMessagesIdRepliesSubIdRequest request,
+    /// <summary>
+    /// Create a Reply in Private Message.
+    /// </summary>
+    Task<PrivateMessageReplyResponse> CreateReplyAsync(
+        CreateReplyPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeletePrivateMessagesIdRepliesSubIdResponse> DeleteAReplyFromPrivateMessageAsync(
-        DeletePrivateMessagesIdRepliesSubIdRequest request,
+    Task<RetrieveReplyPrivateMessagesResponse> RetrieveReplyAsync(
+        RetrieveReplyPrivateMessagesRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<SuccessResponse> DeleteReplyAsync(
+        DeleteReplyPrivateMessagesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

@@ -1,8 +1,22 @@
 # Reference
 ## Auth
-<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">RegisterAsync</a>(PostAuthRegisterRequest { ... }) -> PostAuthRegisterResponse</code></summary>
+<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">RegisterAsync</a>(RegisterAuthRequest { ... }) -> RegisterResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Register a new user in your forum instance. Requires API key for instance identification. Returns a JWT token for subsequent authenticated requests.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -14,7 +28,7 @@
 
 ```csharp
 await client.Auth.RegisterAsync(
-    new PostAuthRegisterRequest
+    new RegisterAuthRequest
     {
         Username = "username",
         Email = "email",
@@ -35,7 +49,7 @@ await client.Auth.RegisterAsync(
 <dl>
 <dd>
 
-**request:** `PostAuthRegisterRequest` 
+**request:** `RegisterAuthRequest` 
     
 </dd>
 </dl>
@@ -47,9 +61,23 @@ await client.Auth.RegisterAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">LoginAsync</a>(PostAuthLoginRequest { ... }) -> PostAuthLoginResponse</code></summary>
+<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">LoginAsync</a>(LoginAuthRequest { ... }) -> LoginResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Authenticate an existing user. Requires API key for instance identification. Returns a JWT token for subsequent authenticated requests.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -60,7 +88,7 @@ await client.Auth.RegisterAsync(
 <dd>
 
 ```csharp
-await client.Auth.LoginAsync(new PostAuthLoginRequest { Login = "login", Password = "password" });
+await client.Auth.LoginAsync(new LoginAuthRequest { Login = "login", Password = "password" });
 ```
 </dd>
 </dl>
@@ -75,7 +103,7 @@ await client.Auth.LoginAsync(new PostAuthLoginRequest { Login = "login", Passwor
 <dl>
 <dd>
 
-**request:** `PostAuthLoginRequest` 
+**request:** `LoginAuthRequest` 
     
 </dd>
 </dl>
@@ -87,7 +115,7 @@ await client.Auth.LoginAsync(new PostAuthLoginRequest { Login = "login", Passwor
 </dl>
 </details>
 
-<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">GetCurrentUserAsync</a>() -> GetAuthMeResponse</code></summary>
+<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">MeAsync</a>() -> MeResponse</code></summary>
 <dl>
 <dd>
 
@@ -100,7 +128,7 @@ await client.Auth.LoginAsync(new PostAuthLoginRequest { Login = "login", Passwor
 <dd>
 
 ```csharp
-await client.Auth.GetCurrentUserAsync();
+await client.Auth.MeAsync();
 ```
 </dd>
 </dl>
@@ -112,9 +140,23 @@ await client.Auth.GetCurrentUserAsync();
 </dl>
 </details>
 
-<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">RequestPasswordResetAsync</a>(PostAuthForgotPasswordRequest { ... }) -> PostAuthForgotPasswordResponse</code></summary>
+<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">ForgotPasswordAsync</a>(ForgotPasswordAuthRequest { ... }) -> ForgotPasswordResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Request a password reset email. Requires API key for instance identification.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -125,47 +167,7 @@ await client.Auth.GetCurrentUserAsync();
 <dd>
 
 ```csharp
-await client.Auth.RequestPasswordResetAsync(new PostAuthForgotPasswordRequest { Email = "email" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PostAuthForgotPasswordRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">ResetPasswordAsync</a>(PostAuthResetPasswordRequest { ... }) -> PostAuthResetPasswordResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Auth.ResetPasswordAsync(new PostAuthResetPasswordRequest { Password = "password" });
+await client.Auth.ForgotPasswordAsync(new ForgotPasswordAuthRequest { Email = "email" });
 ```
 </dd>
 </dl>
@@ -180,8 +182,88 @@ await client.Auth.ResetPasswordAsync(new PostAuthResetPasswordRequest { Password
 <dl>
 <dd>
 
-**request:** `PostAuthResetPasswordRequest` 
+**request:** `ForgotPasswordAuthRequest` 
     
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Auth.<a href="/src/ForuMsApi/Auth/AuthClient.cs">ResetPasswordAsync</a>(ResetPasswordAuthRequest { ... }) -> ResetPasswordResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Reset password using a reset token. Requires API key for instance identification.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Auth.ResetPasswordAsync(new ResetPasswordAuthRequest { Password = "password" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ResetPasswordAuthRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Search
+<details><summary><code>client.Search.<a href="/src/ForuMsApi/Search/SearchClient.cs">SearchAsync</a>() -> SearchSearchResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Search.SearchAsync();
+```
 </dd>
 </dl>
 </dd>
@@ -193,9 +275,23 @@ await client.Auth.ResetPasswordAsync(new PostAuthResetPasswordRequest { Password
 </details>
 
 ## Tags
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">ListAllTagsAsync</a>(GetTagsRequest { ... }) -> GetTagsResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">ListAsync</a>(ListTagsRequest { ... }) -> TagListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of tags. Use cursor for pagination.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -206,7 +302,7 @@ await client.Auth.ResetPasswordAsync(new PostAuthResetPasswordRequest { Password
 <dd>
 
 ```csharp
-await client.Tags.ListAllTagsAsync(new GetTagsRequest());
+await client.Tags.ListAsync(new ListTagsRequest());
 ```
 </dd>
 </dl>
@@ -221,7 +317,7 @@ await client.Tags.ListAllTagsAsync(new GetTagsRequest());
 <dl>
 <dd>
 
-**request:** `GetTagsRequest` 
+**request:** `ListTagsRequest` 
     
 </dd>
 </dl>
@@ -233,9 +329,23 @@ await client.Tags.ListAllTagsAsync(new GetTagsRequest());
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">CreateATagAsync</a>(PostTagsRequest { ... }) -> PostTagsResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">CreateAsync</a>(CreateTagsRequest { ... }) -> TagResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new tag.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -246,7 +356,7 @@ await client.Tags.ListAllTagsAsync(new GetTagsRequest());
 <dd>
 
 ```csharp
-await client.Tags.CreateATagAsync(new PostTagsRequest { Name = "name" });
+await client.Tags.CreateAsync(new CreateTagsRequest { Name = "name" });
 ```
 </dd>
 </dl>
@@ -261,7 +371,7 @@ await client.Tags.CreateATagAsync(new PostTagsRequest { Name = "name" });
 <dl>
 <dd>
 
-**request:** `PostTagsRequest` 
+**request:** `CreateTagsRequest` 
     
 </dd>
 </dl>
@@ -273,9 +383,23 @@ await client.Tags.CreateATagAsync(new PostTagsRequest { Name = "name" });
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">GetATagAsync</a>(GetTagsIdRequest { ... }) -> GetTagsIdResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">RetrieveAsync</a>(RetrieveTagsRequest { ... }) -> TagResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a tag by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -286,7 +410,7 @@ await client.Tags.CreateATagAsync(new PostTagsRequest { Name = "name" });
 <dd>
 
 ```csharp
-await client.Tags.GetATagAsync(new GetTagsIdRequest { Id = "id" });
+await client.Tags.RetrieveAsync(new RetrieveTagsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -301,7 +425,7 @@ await client.Tags.GetATagAsync(new GetTagsIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `GetTagsIdRequest` 
+**request:** `RetrieveTagsRequest` 
     
 </dd>
 </dl>
@@ -313,9 +437,23 @@ await client.Tags.GetATagAsync(new GetTagsIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">DeleteATagAsync</a>(DeleteTagsIdRequest { ... }) -> DeleteTagsIdResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">DeleteAsync</a>(DeleteTagsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a tag.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -326,7 +464,7 @@ await client.Tags.GetATagAsync(new GetTagsIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Tags.DeleteATagAsync(new DeleteTagsIdRequest { Id = "id" });
+await client.Tags.DeleteAsync(new DeleteTagsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -341,7 +479,7 @@ await client.Tags.DeleteATagAsync(new DeleteTagsIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `DeleteTagsIdRequest` 
+**request:** `DeleteTagsRequest` 
     
 </dd>
 </dl>
@@ -353,9 +491,23 @@ await client.Tags.DeleteATagAsync(new DeleteTagsIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">UpdateATagAsync</a>(PatchTagsIdRequest { ... }) -> PatchTagsIdResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">UpdateAsync</a>(UpdateTagsRequest { ... }) -> UpdateTagsResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing tag. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -366,7 +518,7 @@ await client.Tags.DeleteATagAsync(new DeleteTagsIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Tags.UpdateATagAsync(new PatchTagsIdRequest { Id = "id" });
+await client.Tags.UpdateAsync(new UpdateTagsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -381,7 +533,7 @@ await client.Tags.UpdateATagAsync(new PatchTagsIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `PatchTagsIdRequest` 
+**request:** `UpdateTagsRequest` 
     
 </dd>
 </dl>
@@ -393,9 +545,23 @@ await client.Tags.UpdateATagAsync(new PatchTagsIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">ListTagSubscribersAsync</a>(GetTagsIdSubscribersRequest { ... }) -> GetTagsIdSubscribersResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">ListSubscribersAsync</a>(ListSubscribersTagsRequest { ... }) -> TagSubscriberListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of subscribers for Tag.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -406,7 +572,7 @@ await client.Tags.UpdateATagAsync(new PatchTagsIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Tags.ListTagSubscribersAsync(new GetTagsIdSubscribersRequest { Id = "id" });
+await client.Tags.ListSubscribersAsync(new ListSubscribersTagsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -421,7 +587,7 @@ await client.Tags.ListTagSubscribersAsync(new GetTagsIdSubscribersRequest { Id =
 <dl>
 <dd>
 
-**request:** `GetTagsIdSubscribersRequest` 
+**request:** `ListSubscribersTagsRequest` 
     
 </dd>
 </dl>
@@ -433,7 +599,7 @@ await client.Tags.ListTagSubscribersAsync(new GetTagsIdSubscribersRequest { Id =
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">GetASubscriberFromTagAsync</a>(GetTagsIdSubscribersSubIdRequest { ... }) -> GetTagsIdSubscribersSubIdResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">RetrieveSubscriberAsync</a>(RetrieveSubscriberTagsRequest { ... }) -> RetrieveSubscriberTagsResponse</code></summary>
 <dl>
 <dd>
 
@@ -446,8 +612,8 @@ await client.Tags.ListTagSubscribersAsync(new GetTagsIdSubscribersRequest { Id =
 <dd>
 
 ```csharp
-await client.Tags.GetASubscriberFromTagAsync(
-    new GetTagsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+await client.Tags.RetrieveSubscriberAsync(
+    new RetrieveSubscriberTagsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -463,7 +629,7 @@ await client.Tags.GetASubscriberFromTagAsync(
 <dl>
 <dd>
 
-**request:** `GetTagsIdSubscribersSubIdRequest` 
+**request:** `RetrieveSubscriberTagsRequest` 
     
 </dd>
 </dl>
@@ -475,7 +641,7 @@ await client.Tags.GetASubscriberFromTagAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">DeleteASubscriberFromTagAsync</a>(DeleteTagsIdSubscribersSubIdRequest { ... }) -> DeleteTagsIdSubscribersSubIdResponse</code></summary>
+<details><summary><code>client.Tags.<a href="/src/ForuMsApi/Tags/TagsClient.cs">DeleteSubscriberAsync</a>(DeleteSubscriberTagsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -488,8 +654,8 @@ await client.Tags.GetASubscriberFromTagAsync(
 <dd>
 
 ```csharp
-await client.Tags.DeleteASubscriberFromTagAsync(
-    new DeleteTagsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+await client.Tags.DeleteSubscriberAsync(
+    new DeleteSubscriberTagsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -505,7 +671,7 @@ await client.Tags.DeleteASubscriberFromTagAsync(
 <dl>
 <dd>
 
-**request:** `DeleteTagsIdSubscribersSubIdRequest` 
+**request:** `DeleteSubscriberTagsRequest` 
     
 </dd>
 </dl>
@@ -518,413 +684,7 @@ await client.Tags.DeleteASubscriberFromTagAsync(
 </details>
 
 ## Threads
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListAllThreadsAsync</a>(GetThreadsRequest { ... }) -> GetThreadsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.ListAllThreadsAsync(new GetThreadsRequest());
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetThreadsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">CreateAThreadAsync</a>(PostThreadsRequest { ... }) -> PostThreadsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.CreateAThreadAsync(new PostThreadsRequest { Title = "title", Body = "body" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PostThreadsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">GetAThreadAsync</a>(GetThreadsIdRequest { ... }) -> GetThreadsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.GetAThreadAsync(new GetThreadsIdRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetThreadsIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteAThreadAsync</a>(DeleteThreadsIdRequest { ... }) -> DeleteThreadsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.DeleteAThreadAsync(new DeleteThreadsIdRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `DeleteThreadsIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">UpdateAThreadAsync</a>(PatchThreadsIdRequest { ... }) -> PatchThreadsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.UpdateAThreadAsync(new PatchThreadsIdRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PatchThreadsIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListThreadPostsAsync</a>(GetThreadsIdPostsRequest { ... }) -> GetThreadsIdPostsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.ListThreadPostsAsync(new GetThreadsIdPostsRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetThreadsIdPostsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">GetAPostFromThreadAsync</a>(GetThreadsIdPostsSubIdRequest { ... }) -> GetThreadsIdPostsSubIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.GetAPostFromThreadAsync(
-    new GetThreadsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
-);
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetThreadsIdPostsSubIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteAPostFromThreadAsync</a>(DeleteThreadsIdPostsSubIdRequest { ... }) -> DeleteThreadsIdPostsSubIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.DeleteAPostFromThreadAsync(
-    new DeleteThreadsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
-);
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `DeleteThreadsIdPostsSubIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListThreadReactionsAsync</a>(GetThreadsIdReactionsRequest { ... }) -> GetThreadsIdReactionsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.ListThreadReactionsAsync(new GetThreadsIdReactionsRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetThreadsIdReactionsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">CreateAReactionInThreadAsync</a>(PostThreadsIdReactionsRequest { ... }) -> PostThreadsIdReactionsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.CreateAReactionInThreadAsync(
-    new PostThreadsIdReactionsRequest { Id = "id", Type = PostThreadsIdReactionsRequestType.Like }
-);
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PostThreadsIdReactionsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">RemoveYourReactionFromThreadAsync</a>(DeleteThreadsIdReactionsRequest { ... }) -> DeleteThreadsIdReactionsResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListAsync</a>(ListThreadsRequest { ... }) -> ThreadListResponse</code></summary>
 <dl>
 <dd>
 
@@ -936,7 +696,7 @@ await client.Threads.CreateAReactionInThreadAsync(
 <dl>
 <dd>
 
-Removes the authenticated user's reaction. No subId needed.
+Retrieve a paginated list of threads. Use cursor for pagination.
 </dd>
 </dl>
 </dd>
@@ -951,8 +711,318 @@ Removes the authenticated user's reaction. No subId needed.
 <dd>
 
 ```csharp
-await client.Threads.RemoveYourReactionFromThreadAsync(
-    new DeleteThreadsIdReactionsRequest { Id = "id" }
+await client.Threads.ListAsync(new ListThreadsRequest());
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">CreateAsync</a>(CreateThreadsRequest { ... }) -> ThreadResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new thread.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.CreateAsync(new CreateThreadsRequest { Title = "title", Body = "body" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `CreateThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">RetrieveAsync</a>(RetrieveThreadsRequest { ... }) -> ThreadResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a thread by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.RetrieveAsync(new RetrieveThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RetrieveThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteAsync</a>(DeleteThreadsRequest { ... }) -> SuccessResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a thread.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.DeleteAsync(new DeleteThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `DeleteThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">UpdateAsync</a>(UpdateThreadsRequest { ... }) -> UpdateThreadsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing thread. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.UpdateAsync(new UpdateThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `UpdateThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListPostsAsync</a>(ListPostsThreadsRequest { ... }) -> ThreadPostListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of posts for Thread.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.ListPostsAsync(new ListPostsThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListPostsThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">RetrievePostAsync</a>(RetrievePostThreadsRequest { ... }) -> RetrievePostThreadsResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.RetrievePostAsync(
+    new RetrievePostThreadsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -968,7 +1038,7 @@ await client.Threads.RemoveYourReactionFromThreadAsync(
 <dl>
 <dd>
 
-**request:** `DeleteThreadsIdReactionsRequest` 
+**request:** `RetrievePostThreadsRequest` 
     
 </dd>
 </dl>
@@ -980,7 +1050,7 @@ await client.Threads.RemoveYourReactionFromThreadAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">GetAReactionFromThreadAsync</a>(GetThreadsIdReactionsSubIdRequest { ... }) -> GetThreadsIdReactionsSubIdResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeletePostAsync</a>(DeletePostThreadsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -993,8 +1063,116 @@ await client.Threads.RemoveYourReactionFromThreadAsync(
 <dd>
 
 ```csharp
-await client.Threads.GetAReactionFromThreadAsync(
-    new GetThreadsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
+await client.Threads.DeletePostAsync(new DeletePostThreadsRequest { Id = "id", SubId = "subId" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `DeletePostThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListReactionsAsync</a>(ListReactionsThreadsRequest { ... }) -> ThreadReactionListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of reactions for Thread.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.ListReactionsAsync(new ListReactionsThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListReactionsThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">CreateReactionAsync</a>(CreateReactionThreadsRequest { ... }) -> ThreadReactionResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a Reaction in Thread.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.CreateReactionAsync(
+    new CreateReactionThreadsRequest { Id = "id", Type = CreateReactionThreadsRequestType.Like }
 );
 ```
 </dd>
@@ -1010,7 +1188,7 @@ await client.Threads.GetAReactionFromThreadAsync(
 <dl>
 <dd>
 
-**request:** `GetThreadsIdReactionsSubIdRequest` 
+**request:** `CreateReactionThreadsRequest` 
     
 </dd>
 </dl>
@@ -1022,7 +1200,7 @@ await client.Threads.GetAReactionFromThreadAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteAReactionFromThreadAsync</a>(DeleteThreadsIdReactionsSubIdRequest { ... }) -> DeleteThreadsIdReactionsSubIdResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteReactionAsync</a>(DeleteReactionThreadsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -1035,8 +1213,8 @@ await client.Threads.GetAReactionFromThreadAsync(
 <dd>
 
 ```csharp
-await client.Threads.DeleteAReactionFromThreadAsync(
-    new DeleteThreadsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
+await client.Threads.DeleteReactionAsync(
+    new DeleteReactionThreadsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -1052,7 +1230,7 @@ await client.Threads.DeleteAReactionFromThreadAsync(
 <dl>
 <dd>
 
-**request:** `DeleteThreadsIdReactionsSubIdRequest` 
+**request:** `DeleteReactionThreadsRequest` 
     
 </dd>
 </dl>
@@ -1064,7 +1242,7 @@ await client.Threads.DeleteAReactionFromThreadAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListThreadSubscribersAsync</a>(GetThreadsIdSubscribersRequest { ... }) -> GetThreadsIdSubscribersResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">RetrieveReactionAsync</a>(RetrieveReactionThreadsRequest { ... }) -> RetrieveReactionThreadsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1077,48 +1255,8 @@ await client.Threads.DeleteAReactionFromThreadAsync(
 <dd>
 
 ```csharp
-await client.Threads.ListThreadSubscribersAsync(new GetThreadsIdSubscribersRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetThreadsIdSubscribersRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">GetASubscriberFromThreadAsync</a>(GetThreadsIdSubscribersSubIdRequest { ... }) -> GetThreadsIdSubscribersSubIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Threads.GetASubscriberFromThreadAsync(
-    new GetThreadsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+await client.Threads.RetrieveReactionAsync(
+    new RetrieveReactionThreadsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -1134,7 +1272,7 @@ await client.Threads.GetASubscriberFromThreadAsync(
 <dl>
 <dd>
 
-**request:** `GetThreadsIdSubscribersSubIdRequest` 
+**request:** `RetrieveReactionThreadsRequest` 
     
 </dd>
 </dl>
@@ -1146,7 +1284,61 @@ await client.Threads.GetASubscriberFromThreadAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteASubscriberFromThreadAsync</a>(DeleteThreadsIdSubscribersSubIdRequest { ... }) -> DeleteThreadsIdSubscribersSubIdResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">ListSubscribersAsync</a>(ListSubscribersThreadsRequest { ... }) -> ThreadSubscriberListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of subscribers for Thread.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.ListSubscribersAsync(new ListSubscribersThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListSubscribersThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">RetrieveSubscriberAsync</a>(RetrieveSubscriberThreadsRequest { ... }) -> RetrieveSubscriberThreadsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1159,8 +1351,8 @@ await client.Threads.GetASubscriberFromThreadAsync(
 <dd>
 
 ```csharp
-await client.Threads.DeleteASubscriberFromThreadAsync(
-    new DeleteThreadsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+await client.Threads.RetrieveSubscriberAsync(
+    new RetrieveSubscriberThreadsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -1176,7 +1368,7 @@ await client.Threads.DeleteASubscriberFromThreadAsync(
 <dl>
 <dd>
 
-**request:** `DeleteThreadsIdSubscribersSubIdRequest` 
+**request:** `RetrieveSubscriberThreadsRequest` 
     
 </dd>
 </dl>
@@ -1188,7 +1380,7 @@ await client.Threads.DeleteASubscriberFromThreadAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">GetThreadPollAsync</a>(GetThreadsIdPollRequest { ... }) -> GetThreadsIdPollResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">DeleteSubscriberAsync</a>(DeleteSubscriberThreadsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -1201,7 +1393,9 @@ await client.Threads.DeleteASubscriberFromThreadAsync(
 <dd>
 
 ```csharp
-await client.Threads.GetThreadPollAsync(new GetThreadsIdPollRequest { Id = "id" });
+await client.Threads.DeleteSubscriberAsync(
+    new DeleteSubscriberThreadsRequest { Id = "id", SubId = "subId" }
+);
 ```
 </dd>
 </dl>
@@ -1216,7 +1410,7 @@ await client.Threads.GetThreadPollAsync(new GetThreadsIdPollRequest { Id = "id" 
 <dl>
 <dd>
 
-**request:** `GetThreadsIdPollRequest` 
+**request:** `DeleteSubscriberThreadsRequest` 
     
 </dd>
 </dl>
@@ -1228,7 +1422,7 @@ await client.Threads.GetThreadPollAsync(new GetThreadsIdPollRequest { Id = "id" 
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">CreateThreadPollAsync</a>(PostThreadsIdPollRequest { ... }) -> PostThreadsIdPollResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">RetrievePollAsync</a>(RetrievePollThreadsRequest { ... }) -> ThreadPollResponse</code></summary>
 <dl>
 <dd>
 
@@ -1241,14 +1435,54 @@ await client.Threads.GetThreadPollAsync(new GetThreadsIdPollRequest { Id = "id" 
 <dd>
 
 ```csharp
-await client.Threads.CreateThreadPollAsync(
-    new PostThreadsIdPollRequest
+await client.Threads.RetrievePollAsync(new RetrievePollThreadsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RetrievePollThreadsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">CreatePollAsync</a>(CreatePollThreadsRequest { ... }) -> ThreadPollResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Threads.CreatePollAsync(
+    new CreatePollThreadsRequest
     {
         Id = "id",
         Title = "title",
-        Options = new List<PostThreadsIdPollRequestOptionsItem>()
+        Options = new List<CreatePollThreadsRequestOptionsItem>()
         {
-            new PostThreadsIdPollRequestOptionsItem { Title = "title" },
+            new CreatePollThreadsRequestOptionsItem { Title = "title" },
         },
     }
 );
@@ -1266,7 +1500,7 @@ await client.Threads.CreateThreadPollAsync(
 <dl>
 <dd>
 
-**request:** `PostThreadsIdPollRequest` 
+**request:** `CreatePollThreadsRequest` 
     
 </dd>
 </dl>
@@ -1278,7 +1512,7 @@ await client.Threads.CreateThreadPollAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">UpdateThreadPollAsync</a>(PatchThreadsIdPollRequest { ... }) -> PatchThreadsIdPollResponse</code></summary>
+<details><summary><code>client.Threads.<a href="/src/ForuMsApi/Threads/ThreadsClient.cs">UpdatePollAsync</a>(UpdatePollThreadsRequest { ... }) -> ThreadPollResponse</code></summary>
 <dl>
 <dd>
 
@@ -1291,7 +1525,7 @@ await client.Threads.CreateThreadPollAsync(
 <dd>
 
 ```csharp
-await client.Threads.UpdateThreadPollAsync(new PatchThreadsIdPollRequest { Id = "id" });
+await client.Threads.UpdatePollAsync(new UpdatePollThreadsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -1306,7 +1540,7 @@ await client.Threads.UpdateThreadPollAsync(new PatchThreadsIdPollRequest { Id = 
 <dl>
 <dd>
 
-**request:** `PatchThreadsIdPollRequest` 
+**request:** `UpdatePollThreadsRequest` 
     
 </dd>
 </dl>
@@ -1319,289 +1553,7 @@ await client.Threads.UpdateThreadPollAsync(new PatchThreadsIdPollRequest { Id = 
 </details>
 
 ## Posts
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">ListAllPostsAsync</a>(GetPostsRequest { ... }) -> GetPostsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.ListAllPostsAsync(new GetPostsRequest());
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetPostsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">CreateAPostAsync</a>(PostPostsRequest { ... }) -> PostPostsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.CreateAPostAsync(new PostPostsRequest { ThreadId = "threadId", Body = "body" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PostPostsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">GetAPostAsync</a>(GetPostsIdRequest { ... }) -> GetPostsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.GetAPostAsync(new GetPostsIdRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetPostsIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">DeleteAPostAsync</a>(DeletePostsIdRequest { ... }) -> DeletePostsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.DeleteAPostAsync(new DeletePostsIdRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `DeletePostsIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">UpdateAPostAsync</a>(PatchPostsIdRequest { ... }) -> PatchPostsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.UpdateAPostAsync(new PatchPostsIdRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PatchPostsIdRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">ListPostReactionsAsync</a>(GetPostsIdReactionsRequest { ... }) -> GetPostsIdReactionsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.ListPostReactionsAsync(new GetPostsIdReactionsRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetPostsIdReactionsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">CreateAReactionInPostAsync</a>(PostPostsIdReactionsRequest { ... }) -> PostPostsIdReactionsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.CreateAReactionInPostAsync(
-    new PostPostsIdReactionsRequest { Id = "id", Type = PostPostsIdReactionsRequestType.Like }
-);
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PostPostsIdReactionsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">RemoveYourReactionFromPostAsync</a>(DeletePostsIdReactionsRequest { ... }) -> DeletePostsIdReactionsResponse</code></summary>
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">ListAsync</a>(ListPostsRequest { ... }) -> PostListResponse</code></summary>
 <dl>
 <dd>
 
@@ -1613,7 +1565,7 @@ await client.Posts.CreateAReactionInPostAsync(
 <dl>
 <dd>
 
-Removes the authenticated user's reaction. No subId needed.
+Retrieve a paginated list of posts. Use cursor for pagination.
 </dd>
 </dl>
 </dd>
@@ -1628,7 +1580,7 @@ Removes the authenticated user's reaction. No subId needed.
 <dd>
 
 ```csharp
-await client.Posts.RemoveYourReactionFromPostAsync(new DeletePostsIdReactionsRequest { Id = "id" });
+await client.Posts.ListAsync(new ListPostsRequest());
 ```
 </dd>
 </dl>
@@ -1643,7 +1595,7 @@ await client.Posts.RemoveYourReactionFromPostAsync(new DeletePostsIdReactionsReq
 <dl>
 <dd>
 
-**request:** `DeletePostsIdReactionsRequest` 
+**request:** `ListPostsRequest` 
     
 </dd>
 </dl>
@@ -1655,9 +1607,23 @@ await client.Posts.RemoveYourReactionFromPostAsync(new DeletePostsIdReactionsReq
 </dl>
 </details>
 
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">GetAReactionFromPostAsync</a>(GetPostsIdReactionsSubIdRequest { ... }) -> GetPostsIdReactionsSubIdResponse</code></summary>
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">CreateAsync</a>(CreatePostsRequest { ... }) -> PostResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new post.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1668,8 +1634,278 @@ await client.Posts.RemoveYourReactionFromPostAsync(new DeletePostsIdReactionsReq
 <dd>
 
 ```csharp
-await client.Posts.GetAReactionFromPostAsync(
-    new GetPostsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
+await client.Posts.CreateAsync(new CreatePostsRequest { ThreadId = "threadId", Body = "body" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `CreatePostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">RetrieveAsync</a>(RetrievePostsRequest { ... }) -> PostResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a post by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.RetrieveAsync(new RetrievePostsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RetrievePostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">DeleteAsync</a>(DeletePostsRequest { ... }) -> SuccessResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a post.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.DeleteAsync(new DeletePostsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `DeletePostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">UpdateAsync</a>(UpdatePostsRequest { ... }) -> UpdatePostsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing post. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.UpdateAsync(new UpdatePostsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `UpdatePostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">ListReactionsAsync</a>(ListReactionsPostsRequest { ... }) -> PostReactionListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of reactions for Post.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.ListReactionsAsync(new ListReactionsPostsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListReactionsPostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">CreateReactionAsync</a>(CreateReactionPostsRequest { ... }) -> PostReactionResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a Reaction in Post.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.CreateReactionAsync(
+    new CreateReactionPostsRequest { Id = "id", Type = CreateReactionPostsRequestType.Like }
 );
 ```
 </dd>
@@ -1685,7 +1921,7 @@ await client.Posts.GetAReactionFromPostAsync(
 <dl>
 <dd>
 
-**request:** `GetPostsIdReactionsSubIdRequest` 
+**request:** `CreateReactionPostsRequest` 
     
 </dd>
 </dl>
@@ -1697,7 +1933,7 @@ await client.Posts.GetAReactionFromPostAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">DeleteAReactionFromPostAsync</a>(DeletePostsIdReactionsSubIdRequest { ... }) -> DeletePostsIdReactionsSubIdResponse</code></summary>
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">DeleteReactionAsync</a>(DeleteReactionPostsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -1710,8 +1946,8 @@ await client.Posts.GetAReactionFromPostAsync(
 <dd>
 
 ```csharp
-await client.Posts.DeleteAReactionFromPostAsync(
-    new DeletePostsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
+await client.Posts.DeleteReactionAsync(
+    new DeleteReactionPostsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -1727,7 +1963,7 @@ await client.Posts.DeleteAReactionFromPostAsync(
 <dl>
 <dd>
 
-**request:** `DeletePostsIdReactionsSubIdRequest` 
+**request:** `DeleteReactionPostsRequest` 
     
 </dd>
 </dl>
@@ -1739,7 +1975,7 @@ await client.Posts.DeleteAReactionFromPostAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">ListPostPostsAsync</a>(GetPostsIdPostsRequest { ... }) -> GetPostsIdPostsResponse</code></summary>
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">RetrieveReactionAsync</a>(RetrieveReactionPostsRequest { ... }) -> RetrieveReactionPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1752,48 +1988,8 @@ await client.Posts.DeleteAReactionFromPostAsync(
 <dd>
 
 ```csharp
-await client.Posts.ListPostPostsAsync(new GetPostsIdPostsRequest { Id = "id" });
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetPostsIdPostsRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">GetAPostFromPostAsync</a>(GetPostsIdPostsSubIdRequest { ... }) -> GetPostsIdPostsSubIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.Posts.GetAPostFromPostAsync(
-    new GetPostsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
+await client.Posts.RetrieveReactionAsync(
+    new RetrieveReactionPostsRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -1809,7 +2005,7 @@ await client.Posts.GetAPostFromPostAsync(
 <dl>
 <dd>
 
-**request:** `GetPostsIdPostsSubIdRequest` 
+**request:** `RetrieveReactionPostsRequest` 
     
 </dd>
 </dl>
@@ -1821,7 +2017,61 @@ await client.Posts.GetAPostFromPostAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">DeleteAPostFromPostAsync</a>(DeletePostsIdPostsSubIdRequest { ... }) -> DeletePostsIdPostsSubIdResponse</code></summary>
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">ListPostsAsync</a>(ListPostsPostsRequest { ... }) -> PostPostListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of posts for Post.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.ListPostsAsync(new ListPostsPostsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListPostsPostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">RetrievePostAsync</a>(RetrievePostPostsRequest { ... }) -> RetrievePostPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1834,8 +2084,157 @@ await client.Posts.GetAPostFromPostAsync(
 <dd>
 
 ```csharp
-await client.Posts.DeleteAPostFromPostAsync(
-    new DeletePostsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
+await client.Posts.RetrievePostAsync(new RetrievePostPostsRequest { Id = "id", SubId = "subId" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RetrievePostPostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.<a href="/src/ForuMsApi/Posts/PostsClient.cs">DeletePostAsync</a>(DeletePostPostsRequest { ... }) -> SuccessResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Posts.DeletePostAsync(new DeletePostPostsRequest { Id = "id", SubId = "subId" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `DeletePostPostsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Private Messages
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">ListAsync</a>(ListPrivateMessagesRequest { ... }) -> PrivateMessageListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of private messages. Use cursor for pagination.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.PrivateMessages.ListAsync(new ListPrivateMessagesRequest());
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListPrivateMessagesRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">CreateAsync</a>(CreatePrivateMessagesRequest { ... }) -> PrivateMessageResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new private message.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.PrivateMessages.CreateAsync(
+    new CreatePrivateMessagesRequest { RecipientId = "recipientId", Body = "body" }
 );
 ```
 </dd>
@@ -1851,7 +2250,7 @@ await client.Posts.DeleteAPostFromPostAsync(
 <dl>
 <dd>
 
-**request:** `DeletePostsIdPostsSubIdRequest` 
+**request:** `CreatePrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -1863,10 +2262,23 @@ await client.Posts.DeleteAPostFromPostAsync(
 </dl>
 </details>
 
-## PrivateMessages
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">ListAllPrivateMessagesAsync</a>(GetPrivateMessagesRequest { ... }) -> GetPrivateMessagesResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">RetrieveAsync</a>(RetrievePrivateMessagesRequest { ... }) -> PrivateMessageResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a private message by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1877,7 +2289,7 @@ await client.Posts.DeleteAPostFromPostAsync(
 <dd>
 
 ```csharp
-await client.PrivateMessages.ListAllPrivateMessagesAsync(new GetPrivateMessagesRequest());
+await client.PrivateMessages.RetrieveAsync(new RetrievePrivateMessagesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -1892,7 +2304,7 @@ await client.PrivateMessages.ListAllPrivateMessagesAsync(new GetPrivateMessagesR
 <dl>
 <dd>
 
-**request:** `GetPrivateMessagesRequest` 
+**request:** `RetrievePrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -1904,9 +2316,23 @@ await client.PrivateMessages.ListAllPrivateMessagesAsync(new GetPrivateMessagesR
 </dl>
 </details>
 
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">CreateAPrivateMessageAsync</a>(PostPrivateMessagesRequest { ... }) -> PostPrivateMessagesResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">DeleteAsync</a>(DeletePrivateMessagesRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a private message.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1917,9 +2343,7 @@ await client.PrivateMessages.ListAllPrivateMessagesAsync(new GetPrivateMessagesR
 <dd>
 
 ```csharp
-await client.PrivateMessages.CreateAPrivateMessageAsync(
-    new PostPrivateMessagesRequest { RecipientId = "recipientId", Body = "body" }
-);
+await client.PrivateMessages.DeleteAsync(new DeletePrivateMessagesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -1934,7 +2358,7 @@ await client.PrivateMessages.CreateAPrivateMessageAsync(
 <dl>
 <dd>
 
-**request:** `PostPrivateMessagesRequest` 
+**request:** `DeletePrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -1946,9 +2370,23 @@ await client.PrivateMessages.CreateAPrivateMessageAsync(
 </dl>
 </details>
 
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">GetAPrivateMessageAsync</a>(GetPrivateMessagesIdRequest { ... }) -> GetPrivateMessagesIdResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">UpdateAsync</a>(UpdatePrivateMessagesRequest { ... }) -> UpdatePrivateMessagesResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing private message. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1959,7 +2397,7 @@ await client.PrivateMessages.CreateAPrivateMessageAsync(
 <dd>
 
 ```csharp
-await client.PrivateMessages.GetAPrivateMessageAsync(new GetPrivateMessagesIdRequest { Id = "id" });
+await client.PrivateMessages.UpdateAsync(new UpdatePrivateMessagesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -1974,7 +2412,7 @@ await client.PrivateMessages.GetAPrivateMessageAsync(new GetPrivateMessagesIdReq
 <dl>
 <dd>
 
-**request:** `GetPrivateMessagesIdRequest` 
+**request:** `UpdatePrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -1986,9 +2424,23 @@ await client.PrivateMessages.GetAPrivateMessageAsync(new GetPrivateMessagesIdReq
 </dl>
 </details>
 
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">DeleteAPrivateMessageAsync</a>(DeletePrivateMessagesIdRequest { ... }) -> DeletePrivateMessagesIdResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">ListRepliesAsync</a>(ListRepliesPrivateMessagesRequest { ... }) -> PrivateMessageReplyListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of replies for Private Message.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1999,9 +2451,7 @@ await client.PrivateMessages.GetAPrivateMessageAsync(new GetPrivateMessagesIdReq
 <dd>
 
 ```csharp
-await client.PrivateMessages.DeleteAPrivateMessageAsync(
-    new DeletePrivateMessagesIdRequest { Id = "id" }
-);
+await client.PrivateMessages.ListRepliesAsync(new ListRepliesPrivateMessagesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2016,7 +2466,7 @@ await client.PrivateMessages.DeleteAPrivateMessageAsync(
 <dl>
 <dd>
 
-**request:** `DeletePrivateMessagesIdRequest` 
+**request:** `ListRepliesPrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -2028,9 +2478,23 @@ await client.PrivateMessages.DeleteAPrivateMessageAsync(
 </dl>
 </details>
 
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">ListPrivateMessageRepliesAsync</a>(GetPrivateMessagesIdRepliesRequest { ... }) -> GetPrivateMessagesIdRepliesResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">CreateReplyAsync</a>(CreateReplyPrivateMessagesRequest { ... }) -> PrivateMessageReplyResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a Reply in Private Message.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2041,50 +2505,8 @@ await client.PrivateMessages.DeleteAPrivateMessageAsync(
 <dd>
 
 ```csharp
-await client.PrivateMessages.ListPrivateMessageRepliesAsync(
-    new GetPrivateMessagesIdRepliesRequest { Id = "id" }
-);
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `GetPrivateMessagesIdRepliesRequest` 
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">CreateAReplyInPrivateMessageAsync</a>(PostPrivateMessagesIdRepliesRequest { ... }) -> PostPrivateMessagesIdRepliesResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```csharp
-await client.PrivateMessages.CreateAReplyInPrivateMessageAsync(
-    new PostPrivateMessagesIdRepliesRequest
+await client.PrivateMessages.CreateReplyAsync(
+    new CreateReplyPrivateMessagesRequest
     {
         Id = "id",
         RecipientId = "recipientId",
@@ -2105,7 +2527,7 @@ await client.PrivateMessages.CreateAReplyInPrivateMessageAsync(
 <dl>
 <dd>
 
-**request:** `PostPrivateMessagesIdRepliesRequest` 
+**request:** `CreateReplyPrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -2117,7 +2539,7 @@ await client.PrivateMessages.CreateAReplyInPrivateMessageAsync(
 </dl>
 </details>
 
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">GetAReplyFromPrivateMessageAsync</a>(GetPrivateMessagesIdRepliesSubIdRequest { ... }) -> GetPrivateMessagesIdRepliesSubIdResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">RetrieveReplyAsync</a>(RetrieveReplyPrivateMessagesRequest { ... }) -> RetrieveReplyPrivateMessagesResponse</code></summary>
 <dl>
 <dd>
 
@@ -2130,8 +2552,8 @@ await client.PrivateMessages.CreateAReplyInPrivateMessageAsync(
 <dd>
 
 ```csharp
-await client.PrivateMessages.GetAReplyFromPrivateMessageAsync(
-    new GetPrivateMessagesIdRepliesSubIdRequest { Id = "id", SubId = "subId" }
+await client.PrivateMessages.RetrieveReplyAsync(
+    new RetrieveReplyPrivateMessagesRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -2147,7 +2569,7 @@ await client.PrivateMessages.GetAReplyFromPrivateMessageAsync(
 <dl>
 <dd>
 
-**request:** `GetPrivateMessagesIdRepliesSubIdRequest` 
+**request:** `RetrieveReplyPrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -2159,7 +2581,7 @@ await client.PrivateMessages.GetAReplyFromPrivateMessageAsync(
 </dl>
 </details>
 
-<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">DeleteAReplyFromPrivateMessageAsync</a>(DeletePrivateMessagesIdRepliesSubIdRequest { ... }) -> DeletePrivateMessagesIdRepliesSubIdResponse</code></summary>
+<details><summary><code>client.PrivateMessages.<a href="/src/ForuMsApi/PrivateMessages/PrivateMessagesClient.cs">DeleteReplyAsync</a>(DeleteReplyPrivateMessagesRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -2172,8 +2594,8 @@ await client.PrivateMessages.GetAReplyFromPrivateMessageAsync(
 <dd>
 
 ```csharp
-await client.PrivateMessages.DeleteAReplyFromPrivateMessageAsync(
-    new DeletePrivateMessagesIdRepliesSubIdRequest { Id = "id", SubId = "subId" }
+await client.PrivateMessages.DeleteReplyAsync(
+    new DeleteReplyPrivateMessagesRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -2189,7 +2611,7 @@ await client.PrivateMessages.DeleteAReplyFromPrivateMessageAsync(
 <dl>
 <dd>
 
-**request:** `DeletePrivateMessagesIdRepliesSubIdRequest` 
+**request:** `DeleteReplyPrivateMessagesRequest` 
     
 </dd>
 </dl>
@@ -2202,9 +2624,23 @@ await client.PrivateMessages.DeleteAReplyFromPrivateMessageAsync(
 </details>
 
 ## Users
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">ListAllUsersAsync</a>(GetUsersRequest { ... }) -> GetUsersResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">ListAsync</a>(ListUsersRequest { ... }) -> UserListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of users. Use cursor for pagination.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2215,7 +2651,7 @@ await client.PrivateMessages.DeleteAReplyFromPrivateMessageAsync(
 <dd>
 
 ```csharp
-await client.Users.ListAllUsersAsync(new GetUsersRequest());
+await client.Users.ListAsync(new ListUsersRequest());
 ```
 </dd>
 </dl>
@@ -2230,7 +2666,7 @@ await client.Users.ListAllUsersAsync(new GetUsersRequest());
 <dl>
 <dd>
 
-**request:** `GetUsersRequest` 
+**request:** `ListUsersRequest` 
     
 </dd>
 </dl>
@@ -2242,9 +2678,23 @@ await client.Users.ListAllUsersAsync(new GetUsersRequest());
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">GetAUserAsync</a>(GetUsersIdRequest { ... }) -> GetUsersIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">CreateAsync</a>(CreateUsersRequest { ... }) -> UserResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new user.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2255,7 +2705,7 @@ await client.Users.ListAllUsersAsync(new GetUsersRequest());
 <dd>
 
 ```csharp
-await client.Users.GetAUserAsync(new GetUsersIdRequest { Id = "id" });
+await client.Users.CreateAsync(new CreateUsersRequest { Username = "username" });
 ```
 </dd>
 </dl>
@@ -2270,7 +2720,7 @@ await client.Users.GetAUserAsync(new GetUsersIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `GetUsersIdRequest` 
+**request:** `CreateUsersRequest` 
     
 </dd>
 </dl>
@@ -2282,9 +2732,23 @@ await client.Users.GetAUserAsync(new GetUsersIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">DeleteAUserAsync</a>(DeleteUsersIdRequest { ... }) -> DeleteUsersIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">RetrieveAsync</a>(RetrieveUsersRequest { ... }) -> UserResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a user by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2295,7 +2759,7 @@ await client.Users.GetAUserAsync(new GetUsersIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Users.DeleteAUserAsync(new DeleteUsersIdRequest { Id = "id" });
+await client.Users.RetrieveAsync(new RetrieveUsersRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2310,7 +2774,7 @@ await client.Users.DeleteAUserAsync(new DeleteUsersIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `DeleteUsersIdRequest` 
+**request:** `RetrieveUsersRequest` 
     
 </dd>
 </dl>
@@ -2322,9 +2786,23 @@ await client.Users.DeleteAUserAsync(new DeleteUsersIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">UpdateAUserAsync</a>(PatchUsersIdRequest { ... }) -> PatchUsersIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">DeleteAsync</a>(DeleteUsersRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a user.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2335,7 +2813,7 @@ await client.Users.DeleteAUserAsync(new DeleteUsersIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Users.UpdateAUserAsync(new PatchUsersIdRequest { Id = "id" });
+await client.Users.DeleteAsync(new DeleteUsersRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2350,7 +2828,7 @@ await client.Users.UpdateAUserAsync(new PatchUsersIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `PatchUsersIdRequest` 
+**request:** `DeleteUsersRequest` 
     
 </dd>
 </dl>
@@ -2362,9 +2840,23 @@ await client.Users.UpdateAUserAsync(new PatchUsersIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">ListUserFollowersAsync</a>(GetUsersIdFollowersRequest { ... }) -> GetUsersIdFollowersResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">UpdateAsync</a>(UpdateUsersRequest { ... }) -> UpdateUsersResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing user. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2375,7 +2867,7 @@ await client.Users.UpdateAUserAsync(new PatchUsersIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Users.ListUserFollowersAsync(new GetUsersIdFollowersRequest { Id = "id" });
+await client.Users.UpdateAsync(new UpdateUsersRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2390,7 +2882,7 @@ await client.Users.ListUserFollowersAsync(new GetUsersIdFollowersRequest { Id = 
 <dl>
 <dd>
 
-**request:** `GetUsersIdFollowersRequest` 
+**request:** `UpdateUsersRequest` 
     
 </dd>
 </dl>
@@ -2402,7 +2894,61 @@ await client.Users.ListUserFollowersAsync(new GetUsersIdFollowersRequest { Id = 
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">GetAFollowerFromUserAsync</a>(GetUsersIdFollowersSubIdRequest { ... }) -> GetUsersIdFollowersSubIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">ListFollowersAsync</a>(ListFollowersUsersRequest { ... }) -> UserFollowerListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of followers for User.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Users.ListFollowersAsync(new ListFollowersUsersRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListFollowersUsersRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">RetrieveFollowerAsync</a>(RetrieveFollowerUsersRequest { ... }) -> RetrieveFollowerUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -2415,8 +2961,8 @@ await client.Users.ListUserFollowersAsync(new GetUsersIdFollowersRequest { Id = 
 <dd>
 
 ```csharp
-await client.Users.GetAFollowerFromUserAsync(
-    new GetUsersIdFollowersSubIdRequest { Id = "id", SubId = "subId" }
+await client.Users.RetrieveFollowerAsync(
+    new RetrieveFollowerUsersRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -2432,7 +2978,7 @@ await client.Users.GetAFollowerFromUserAsync(
 <dl>
 <dd>
 
-**request:** `GetUsersIdFollowersSubIdRequest` 
+**request:** `RetrieveFollowerUsersRequest` 
     
 </dd>
 </dl>
@@ -2444,7 +2990,7 @@ await client.Users.GetAFollowerFromUserAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">DeleteAFollowerFromUserAsync</a>(DeleteUsersIdFollowersSubIdRequest { ... }) -> DeleteUsersIdFollowersSubIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">DeleteFollowerAsync</a>(DeleteFollowerUsersRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -2457,8 +3003,8 @@ await client.Users.GetAFollowerFromUserAsync(
 <dd>
 
 ```csharp
-await client.Users.DeleteAFollowerFromUserAsync(
-    new DeleteUsersIdFollowersSubIdRequest { Id = "id", SubId = "subId" }
+await client.Users.DeleteFollowerAsync(
+    new DeleteFollowerUsersRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -2474,7 +3020,7 @@ await client.Users.DeleteAFollowerFromUserAsync(
 <dl>
 <dd>
 
-**request:** `DeleteUsersIdFollowersSubIdRequest` 
+**request:** `DeleteFollowerUsersRequest` 
     
 </dd>
 </dl>
@@ -2486,9 +3032,23 @@ await client.Users.DeleteAFollowerFromUserAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">ListUserFollowingAsync</a>(GetUsersIdFollowingRequest { ... }) -> GetUsersIdFollowingResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">ListFollowingAsync</a>(ListFollowingUsersRequest { ... }) -> UserFollowingListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of following for User.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2499,7 +3059,7 @@ await client.Users.DeleteAFollowerFromUserAsync(
 <dd>
 
 ```csharp
-await client.Users.ListUserFollowingAsync(new GetUsersIdFollowingRequest { Id = "id" });
+await client.Users.ListFollowingAsync(new ListFollowingUsersRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2514,7 +3074,7 @@ await client.Users.ListUserFollowingAsync(new GetUsersIdFollowingRequest { Id = 
 <dl>
 <dd>
 
-**request:** `GetUsersIdFollowingRequest` 
+**request:** `ListFollowingUsersRequest` 
     
 </dd>
 </dl>
@@ -2526,7 +3086,7 @@ await client.Users.ListUserFollowingAsync(new GetUsersIdFollowingRequest { Id = 
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">GetAFollowingFromUserAsync</a>(GetUsersIdFollowingSubIdRequest { ... }) -> GetUsersIdFollowingSubIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">RetrieveFollowingAsync</a>(RetrieveFollowingUsersRequest { ... }) -> RetrieveFollowingUsersResponse</code></summary>
 <dl>
 <dd>
 
@@ -2539,8 +3099,8 @@ await client.Users.ListUserFollowingAsync(new GetUsersIdFollowingRequest { Id = 
 <dd>
 
 ```csharp
-await client.Users.GetAFollowingFromUserAsync(
-    new GetUsersIdFollowingSubIdRequest { Id = "id", SubId = "subId" }
+await client.Users.RetrieveFollowingAsync(
+    new RetrieveFollowingUsersRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -2556,7 +3116,7 @@ await client.Users.GetAFollowingFromUserAsync(
 <dl>
 <dd>
 
-**request:** `GetUsersIdFollowingSubIdRequest` 
+**request:** `RetrieveFollowingUsersRequest` 
     
 </dd>
 </dl>
@@ -2568,7 +3128,7 @@ await client.Users.GetAFollowingFromUserAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">DeleteAFollowingFromUserAsync</a>(DeleteUsersIdFollowingSubIdRequest { ... }) -> DeleteUsersIdFollowingSubIdResponse</code></summary>
+<details><summary><code>client.Users.<a href="/src/ForuMsApi/Users/UsersClient.cs">DeleteFollowingAsync</a>(DeleteFollowingUsersRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -2581,8 +3141,8 @@ await client.Users.GetAFollowingFromUserAsync(
 <dd>
 
 ```csharp
-await client.Users.DeleteAFollowingFromUserAsync(
-    new DeleteUsersIdFollowingSubIdRequest { Id = "id", SubId = "subId" }
+await client.Users.DeleteFollowingAsync(
+    new DeleteFollowingUsersRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -2598,7 +3158,7 @@ await client.Users.DeleteAFollowingFromUserAsync(
 <dl>
 <dd>
 
-**request:** `DeleteUsersIdFollowingSubIdRequest` 
+**request:** `DeleteFollowingUsersRequest` 
     
 </dd>
 </dl>
@@ -2611,9 +3171,23 @@ await client.Users.DeleteAFollowingFromUserAsync(
 </details>
 
 ## Roles
-<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">ListAllRolesAsync</a>(GetRolesRequest { ... }) -> GetRolesResponse</code></summary>
+<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">ListAsync</a>(ListRolesRequest { ... }) -> RoleListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of roles. Use cursor for pagination.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2624,7 +3198,7 @@ await client.Users.DeleteAFollowingFromUserAsync(
 <dd>
 
 ```csharp
-await client.Roles.ListAllRolesAsync(new GetRolesRequest());
+await client.Roles.ListAsync(new ListRolesRequest());
 ```
 </dd>
 </dl>
@@ -2639,7 +3213,7 @@ await client.Roles.ListAllRolesAsync(new GetRolesRequest());
 <dl>
 <dd>
 
-**request:** `GetRolesRequest` 
+**request:** `ListRolesRequest` 
     
 </dd>
 </dl>
@@ -2651,9 +3225,23 @@ await client.Roles.ListAllRolesAsync(new GetRolesRequest());
 </dl>
 </details>
 
-<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">CreateARoleAsync</a>(PostRolesRequest { ... }) -> PostRolesResponse</code></summary>
+<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">CreateAsync</a>(CreateRolesRequest { ... }) -> RoleResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new role.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2664,7 +3252,7 @@ await client.Roles.ListAllRolesAsync(new GetRolesRequest());
 <dd>
 
 ```csharp
-await client.Roles.CreateARoleAsync(new PostRolesRequest { Name = "name" });
+await client.Roles.CreateAsync(new CreateRolesRequest { Name = "name" });
 ```
 </dd>
 </dl>
@@ -2679,7 +3267,7 @@ await client.Roles.CreateARoleAsync(new PostRolesRequest { Name = "name" });
 <dl>
 <dd>
 
-**request:** `PostRolesRequest` 
+**request:** `CreateRolesRequest` 
     
 </dd>
 </dl>
@@ -2691,9 +3279,23 @@ await client.Roles.CreateARoleAsync(new PostRolesRequest { Name = "name" });
 </dl>
 </details>
 
-<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">GetARoleAsync</a>(GetRolesIdRequest { ... }) -> GetRolesIdResponse</code></summary>
+<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">RetrieveAsync</a>(RetrieveRolesRequest { ... }) -> RoleResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a role by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2704,7 +3306,7 @@ await client.Roles.CreateARoleAsync(new PostRolesRequest { Name = "name" });
 <dd>
 
 ```csharp
-await client.Roles.GetARoleAsync(new GetRolesIdRequest { Id = "id" });
+await client.Roles.RetrieveAsync(new RetrieveRolesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2719,7 +3321,7 @@ await client.Roles.GetARoleAsync(new GetRolesIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `GetRolesIdRequest` 
+**request:** `RetrieveRolesRequest` 
     
 </dd>
 </dl>
@@ -2731,9 +3333,23 @@ await client.Roles.GetARoleAsync(new GetRolesIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">DeleteARoleAsync</a>(DeleteRolesIdRequest { ... }) -> DeleteRolesIdResponse</code></summary>
+<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">DeleteAsync</a>(DeleteRolesRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a role.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2744,7 +3360,7 @@ await client.Roles.GetARoleAsync(new GetRolesIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Roles.DeleteARoleAsync(new DeleteRolesIdRequest { Id = "id" });
+await client.Roles.DeleteAsync(new DeleteRolesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2759,7 +3375,7 @@ await client.Roles.DeleteARoleAsync(new DeleteRolesIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `DeleteRolesIdRequest` 
+**request:** `DeleteRolesRequest` 
     
 </dd>
 </dl>
@@ -2771,9 +3387,23 @@ await client.Roles.DeleteARoleAsync(new DeleteRolesIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">UpdateARoleAsync</a>(PatchRolesIdRequest { ... }) -> PatchRolesIdResponse</code></summary>
+<details><summary><code>client.Roles.<a href="/src/ForuMsApi/Roles/RolesClient.cs">UpdateAsync</a>(UpdateRolesRequest { ... }) -> UpdateRolesResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing role. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2784,7 +3414,7 @@ await client.Roles.DeleteARoleAsync(new DeleteRolesIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Roles.UpdateARoleAsync(new PatchRolesIdRequest { Id = "id" });
+await client.Roles.UpdateAsync(new UpdateRolesRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2799,7 +3429,7 @@ await client.Roles.UpdateARoleAsync(new PatchRolesIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `PatchRolesIdRequest` 
+**request:** `UpdateRolesRequest` 
     
 </dd>
 </dl>
@@ -2812,9 +3442,23 @@ await client.Roles.UpdateARoleAsync(new PatchRolesIdRequest { Id = "id" });
 </details>
 
 ## Reports
-<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">ListAllReportsAsync</a>(GetReportsRequest { ... }) -> GetReportsResponse</code></summary>
+<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">ListAsync</a>(ListReportsRequest { ... }) -> ReportListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of reports. Use cursor for pagination.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2825,7 +3469,7 @@ await client.Roles.UpdateARoleAsync(new PatchRolesIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Reports.ListAllReportsAsync(new GetReportsRequest());
+await client.Reports.ListAsync(new ListReportsRequest());
 ```
 </dd>
 </dl>
@@ -2840,7 +3484,7 @@ await client.Reports.ListAllReportsAsync(new GetReportsRequest());
 <dl>
 <dd>
 
-**request:** `GetReportsRequest` 
+**request:** `ListReportsRequest` 
     
 </dd>
 </dl>
@@ -2852,9 +3496,23 @@ await client.Reports.ListAllReportsAsync(new GetReportsRequest());
 </dl>
 </details>
 
-<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">CreateAReportAsync</a>(PostReportsRequest { ... }) -> PostReportsResponse</code></summary>
+<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">CreateAsync</a>(CreateReportsRequest { ... }) -> ReportResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new report.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2865,7 +3523,7 @@ await client.Reports.ListAllReportsAsync(new GetReportsRequest());
 <dd>
 
 ```csharp
-await client.Reports.CreateAReportAsync(new PostReportsRequest { Type = "type" });
+await client.Reports.CreateAsync(new CreateReportsRequest { Type = "type" });
 ```
 </dd>
 </dl>
@@ -2880,7 +3538,7 @@ await client.Reports.CreateAReportAsync(new PostReportsRequest { Type = "type" }
 <dl>
 <dd>
 
-**request:** `PostReportsRequest` 
+**request:** `CreateReportsRequest` 
     
 </dd>
 </dl>
@@ -2892,9 +3550,23 @@ await client.Reports.CreateAReportAsync(new PostReportsRequest { Type = "type" }
 </dl>
 </details>
 
-<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">GetAReportAsync</a>(GetReportsIdRequest { ... }) -> GetReportsIdResponse</code></summary>
+<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">RetrieveAsync</a>(RetrieveReportsRequest { ... }) -> ReportResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a report by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2905,7 +3577,7 @@ await client.Reports.CreateAReportAsync(new PostReportsRequest { Type = "type" }
 <dd>
 
 ```csharp
-await client.Reports.GetAReportAsync(new GetReportsIdRequest { Id = "id" });
+await client.Reports.RetrieveAsync(new RetrieveReportsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2920,7 +3592,7 @@ await client.Reports.GetAReportAsync(new GetReportsIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `GetReportsIdRequest` 
+**request:** `RetrieveReportsRequest` 
     
 </dd>
 </dl>
@@ -2932,9 +3604,23 @@ await client.Reports.GetAReportAsync(new GetReportsIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">DeleteAReportAsync</a>(DeleteReportsIdRequest { ... }) -> DeleteReportsIdResponse</code></summary>
+<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">DeleteAsync</a>(DeleteReportsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a report.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2945,7 +3631,7 @@ await client.Reports.GetAReportAsync(new GetReportsIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Reports.DeleteAReportAsync(new DeleteReportsIdRequest { Id = "id" });
+await client.Reports.DeleteAsync(new DeleteReportsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -2960,7 +3646,61 @@ await client.Reports.DeleteAReportAsync(new DeleteReportsIdRequest { Id = "id" }
 <dl>
 <dd>
 
-**request:** `DeleteReportsIdRequest` 
+**request:** `DeleteReportsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Reports.<a href="/src/ForuMsApi/Reports/ReportsClient.cs">UpdateAsync</a>(UpdateReportsRequest { ... }) -> UpdateReportsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing report. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Reports.UpdateAsync(new UpdateReportsRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `UpdateReportsRequest` 
     
 </dd>
 </dl>
@@ -2973,9 +3713,23 @@ await client.Reports.DeleteAReportAsync(new DeleteReportsIdRequest { Id = "id" }
 </details>
 
 ## Notifications
-<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">ListAllNotificationsAsync</a>(GetNotificationsRequest { ... }) -> GetNotificationsResponse</code></summary>
+<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">ListAsync</a>(ListNotificationsRequest { ... }) -> NotificationListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of notifications. Use cursor for pagination.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2986,7 +3740,7 @@ await client.Reports.DeleteAReportAsync(new DeleteReportsIdRequest { Id = "id" }
 <dd>
 
 ```csharp
-await client.Notifications.ListAllNotificationsAsync(new GetNotificationsRequest());
+await client.Notifications.ListAsync(new ListNotificationsRequest());
 ```
 </dd>
 </dl>
@@ -3001,7 +3755,7 @@ await client.Notifications.ListAllNotificationsAsync(new GetNotificationsRequest
 <dl>
 <dd>
 
-**request:** `GetNotificationsRequest` 
+**request:** `ListNotificationsRequest` 
     
 </dd>
 </dl>
@@ -3013,9 +3767,23 @@ await client.Notifications.ListAllNotificationsAsync(new GetNotificationsRequest
 </dl>
 </details>
 
-<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">CreateANotificationAsync</a>(PostNotificationsRequest { ... }) -> PostNotificationsResponse</code></summary>
+<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">CreateAsync</a>(CreateNotificationsRequest { ... }) -> NotificationResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new notification.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3026,8 +3794,8 @@ await client.Notifications.ListAllNotificationsAsync(new GetNotificationsRequest
 <dd>
 
 ```csharp
-await client.Notifications.CreateANotificationAsync(
-    new PostNotificationsRequest { UserId = "userId", Type = "type" }
+await client.Notifications.CreateAsync(
+    new CreateNotificationsRequest { UserId = "userId", Type = "type" }
 );
 ```
 </dd>
@@ -3043,7 +3811,7 @@ await client.Notifications.CreateANotificationAsync(
 <dl>
 <dd>
 
-**request:** `PostNotificationsRequest` 
+**request:** `CreateNotificationsRequest` 
     
 </dd>
 </dl>
@@ -3055,9 +3823,23 @@ await client.Notifications.CreateANotificationAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">GetANotificationAsync</a>(GetNotificationsIdRequest { ... }) -> GetNotificationsIdResponse</code></summary>
+<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">RetrieveAsync</a>(RetrieveNotificationsRequest { ... }) -> NotificationResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a notification by ID or slug (if supported).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3068,7 +3850,7 @@ await client.Notifications.CreateANotificationAsync(
 <dd>
 
 ```csharp
-await client.Notifications.GetANotificationAsync(new GetNotificationsIdRequest { Id = "id" });
+await client.Notifications.RetrieveAsync(new RetrieveNotificationsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3083,7 +3865,7 @@ await client.Notifications.GetANotificationAsync(new GetNotificationsIdRequest {
 <dl>
 <dd>
 
-**request:** `GetNotificationsIdRequest` 
+**request:** `RetrieveNotificationsRequest` 
     
 </dd>
 </dl>
@@ -3095,9 +3877,23 @@ await client.Notifications.GetANotificationAsync(new GetNotificationsIdRequest {
 </dl>
 </details>
 
-<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">DeleteANotificationAsync</a>(DeleteNotificationsIdRequest { ... }) -> DeleteNotificationsIdResponse</code></summary>
+<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">DeleteAsync</a>(DeleteNotificationsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a notification.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3108,7 +3904,7 @@ await client.Notifications.GetANotificationAsync(new GetNotificationsIdRequest {
 <dd>
 
 ```csharp
-await client.Notifications.DeleteANotificationAsync(new DeleteNotificationsIdRequest { Id = "id" });
+await client.Notifications.DeleteAsync(new DeleteNotificationsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3123,7 +3919,7 @@ await client.Notifications.DeleteANotificationAsync(new DeleteNotificationsIdReq
 <dl>
 <dd>
 
-**request:** `DeleteNotificationsIdRequest` 
+**request:** `DeleteNotificationsRequest` 
     
 </dd>
 </dl>
@@ -3135,9 +3931,23 @@ await client.Notifications.DeleteANotificationAsync(new DeleteNotificationsIdReq
 </dl>
 </details>
 
-<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">UpdateANotificationAsync</a>(PatchNotificationsIdRequest { ... }) -> PatchNotificationsIdResponse</code></summary>
+<details><summary><code>client.Notifications.<a href="/src/ForuMsApi/Notifications/NotificationsClient.cs">UpdateAsync</a>(UpdateNotificationsRequest { ... }) -> UpdateNotificationsResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing notification. Only provided fields will be modified.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3148,7 +3958,7 @@ await client.Notifications.DeleteANotificationAsync(new DeleteNotificationsIdReq
 <dd>
 
 ```csharp
-await client.Notifications.UpdateANotificationAsync(new PatchNotificationsIdRequest { Id = "id" });
+await client.Notifications.UpdateAsync(new UpdateNotificationsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3163,7 +3973,7 @@ await client.Notifications.UpdateANotificationAsync(new PatchNotificationsIdRequ
 <dl>
 <dd>
 
-**request:** `PatchNotificationsIdRequest` 
+**request:** `UpdateNotificationsRequest` 
     
 </dd>
 </dl>
@@ -3176,9 +3986,25 @@ await client.Notifications.UpdateANotificationAsync(new PatchNotificationsIdRequ
 </details>
 
 ## Webhooks
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">ListAllWebhooksAsync</a>(GetWebhooksRequest { ... }) -> GetWebhooksResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">ListAsync</a>(ListWebhooksRequest { ... }) -> WebhookListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of webhooks. Use cursor for pagination.
+
+**Requires feature: webhooks**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3189,7 +4015,7 @@ await client.Notifications.UpdateANotificationAsync(new PatchNotificationsIdRequ
 <dd>
 
 ```csharp
-await client.Webhooks.ListAllWebhooksAsync(new GetWebhooksRequest());
+await client.Webhooks.ListAsync(new ListWebhooksRequest());
 ```
 </dd>
 </dl>
@@ -3204,7 +4030,7 @@ await client.Webhooks.ListAllWebhooksAsync(new GetWebhooksRequest());
 <dl>
 <dd>
 
-**request:** `GetWebhooksRequest` 
+**request:** `ListWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3216,9 +4042,25 @@ await client.Webhooks.ListAllWebhooksAsync(new GetWebhooksRequest());
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">CreateAWebhookAsync</a>(PostWebhooksRequest { ... }) -> PostWebhooksResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">CreateAsync</a>(CreateWebhooksRequest { ... }) -> WebhookResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new webhook.
+
+**Requires feature: webhooks**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3229,8 +4071,8 @@ await client.Webhooks.ListAllWebhooksAsync(new GetWebhooksRequest());
 <dd>
 
 ```csharp
-await client.Webhooks.CreateAWebhookAsync(
-    new PostWebhooksRequest
+await client.Webhooks.CreateAsync(
+    new CreateWebhooksRequest
     {
         Name = "name",
         Url = "url",
@@ -3251,7 +4093,7 @@ await client.Webhooks.CreateAWebhookAsync(
 <dl>
 <dd>
 
-**request:** `PostWebhooksRequest` 
+**request:** `CreateWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3263,9 +4105,25 @@ await client.Webhooks.CreateAWebhookAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">GetAWebhookAsync</a>(GetWebhooksIdRequest { ... }) -> GetWebhooksIdResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">RetrieveAsync</a>(RetrieveWebhooksRequest { ... }) -> WebhookResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a webhook by ID or slug (if supported).
+
+**Requires feature: webhooks**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3276,7 +4134,7 @@ await client.Webhooks.CreateAWebhookAsync(
 <dd>
 
 ```csharp
-await client.Webhooks.GetAWebhookAsync(new GetWebhooksIdRequest { Id = "id" });
+await client.Webhooks.RetrieveAsync(new RetrieveWebhooksRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3291,7 +4149,7 @@ await client.Webhooks.GetAWebhookAsync(new GetWebhooksIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `GetWebhooksIdRequest` 
+**request:** `RetrieveWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3303,9 +4161,25 @@ await client.Webhooks.GetAWebhookAsync(new GetWebhooksIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">DeleteAWebhookAsync</a>(DeleteWebhooksIdRequest { ... }) -> DeleteWebhooksIdResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">DeleteAsync</a>(DeleteWebhooksRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a webhook.
+
+**Requires feature: webhooks**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3316,7 +4190,7 @@ await client.Webhooks.GetAWebhookAsync(new GetWebhooksIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.Webhooks.DeleteAWebhookAsync(new DeleteWebhooksIdRequest { Id = "id" });
+await client.Webhooks.DeleteAsync(new DeleteWebhooksRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3331,7 +4205,7 @@ await client.Webhooks.DeleteAWebhookAsync(new DeleteWebhooksIdRequest { Id = "id
 <dl>
 <dd>
 
-**request:** `DeleteWebhooksIdRequest` 
+**request:** `DeleteWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3343,9 +4217,25 @@ await client.Webhooks.DeleteAWebhookAsync(new DeleteWebhooksIdRequest { Id = "id
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">ListWebhookDeliveriesAsync</a>(GetWebhooksIdDeliveriesRequest { ... }) -> GetWebhooksIdDeliveriesResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">UpdateAsync</a>(UpdateWebhooksRequest { ... }) -> UpdateWebhooksResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing webhook. Only provided fields will be modified.
+
+**Requires feature: webhooks**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3356,7 +4246,7 @@ await client.Webhooks.DeleteAWebhookAsync(new DeleteWebhooksIdRequest { Id = "id
 <dd>
 
 ```csharp
-await client.Webhooks.ListWebhookDeliveriesAsync(new GetWebhooksIdDeliveriesRequest { Id = "id" });
+await client.Webhooks.UpdateAsync(new UpdateWebhooksRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3371,7 +4261,7 @@ await client.Webhooks.ListWebhookDeliveriesAsync(new GetWebhooksIdDeliveriesRequ
 <dl>
 <dd>
 
-**request:** `GetWebhooksIdDeliveriesRequest` 
+**request:** `UpdateWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3383,7 +4273,63 @@ await client.Webhooks.ListWebhookDeliveriesAsync(new GetWebhooksIdDeliveriesRequ
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">GetADeliveryFromWebhookAsync</a>(GetWebhooksIdDeliveriesSubIdRequest { ... }) -> GetWebhooksIdDeliveriesSubIdResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">ListDeliveriesAsync</a>(ListDeliveriesWebhooksRequest { ... }) -> WebhookDeliveryListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of deliveries for Webhook.
+
+**Requires feature: webhooks**
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Webhooks.ListDeliveriesAsync(new ListDeliveriesWebhooksRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListDeliveriesWebhooksRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">RetrieveDeliveryAsync</a>(RetrieveDeliveryWebhooksRequest { ... }) -> RetrieveDeliveryWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -3396,8 +4342,8 @@ await client.Webhooks.ListWebhookDeliveriesAsync(new GetWebhooksIdDeliveriesRequ
 <dd>
 
 ```csharp
-await client.Webhooks.GetADeliveryFromWebhookAsync(
-    new GetWebhooksIdDeliveriesSubIdRequest { Id = "id", SubId = "subId" }
+await client.Webhooks.RetrieveDeliveryAsync(
+    new RetrieveDeliveryWebhooksRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -3413,7 +4359,7 @@ await client.Webhooks.GetADeliveryFromWebhookAsync(
 <dl>
 <dd>
 
-**request:** `GetWebhooksIdDeliveriesSubIdRequest` 
+**request:** `RetrieveDeliveryWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3425,7 +4371,7 @@ await client.Webhooks.GetADeliveryFromWebhookAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">DeleteADeliveryFromWebhookAsync</a>(DeleteWebhooksIdDeliveriesSubIdRequest { ... }) -> DeleteWebhooksIdDeliveriesSubIdResponse</code></summary>
+<details><summary><code>client.Webhooks.<a href="/src/ForuMsApi/Webhooks/WebhooksClient.cs">DeleteDeliveryAsync</a>(DeleteDeliveryWebhooksRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
 
@@ -3438,8 +4384,8 @@ await client.Webhooks.GetADeliveryFromWebhookAsync(
 <dd>
 
 ```csharp
-await client.Webhooks.DeleteADeliveryFromWebhookAsync(
-    new DeleteWebhooksIdDeliveriesSubIdRequest { Id = "id", SubId = "subId" }
+await client.Webhooks.DeleteDeliveryAsync(
+    new DeleteDeliveryWebhooksRequest { Id = "id", SubId = "subId" }
 );
 ```
 </dd>
@@ -3455,7 +4401,7 @@ await client.Webhooks.DeleteADeliveryFromWebhookAsync(
 <dl>
 <dd>
 
-**request:** `DeleteWebhooksIdDeliveriesSubIdRequest` 
+**request:** `DeleteDeliveryWebhooksRequest` 
     
 </dd>
 </dl>
@@ -3468,9 +4414,25 @@ await client.Webhooks.DeleteADeliveryFromWebhookAsync(
 </details>
 
 ## Integrations
-<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">ListAllIntegrationsAsync</a>(GetIntegrationsRequest { ... }) -> GetIntegrationsResponse</code></summary>
+<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">ListAsync</a>(ListIntegrationsRequest { ... }) -> IntegrationListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of integrations. Use cursor for pagination.
+
+**Requires feature: integrations**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3481,7 +4443,7 @@ await client.Webhooks.DeleteADeliveryFromWebhookAsync(
 <dd>
 
 ```csharp
-await client.Integrations.ListAllIntegrationsAsync(new GetIntegrationsRequest());
+await client.Integrations.ListAsync(new ListIntegrationsRequest());
 ```
 </dd>
 </dl>
@@ -3496,7 +4458,7 @@ await client.Integrations.ListAllIntegrationsAsync(new GetIntegrationsRequest())
 <dl>
 <dd>
 
-**request:** `GetIntegrationsRequest` 
+**request:** `ListIntegrationsRequest` 
     
 </dd>
 </dl>
@@ -3508,9 +4470,25 @@ await client.Integrations.ListAllIntegrationsAsync(new GetIntegrationsRequest())
 </dl>
 </details>
 
-<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">CreateAnIntegrationAsync</a>(PostIntegrationsRequest { ... }) -> PostIntegrationsResponse</code></summary>
+<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">CreateAsync</a>(CreateIntegrationsRequest { ... }) -> IntegrationResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create an new integration.
+
+**Requires feature: integrations**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3521,10 +4499,11 @@ await client.Integrations.ListAllIntegrationsAsync(new GetIntegrationsRequest())
 <dd>
 
 ```csharp
-await client.Integrations.CreateAnIntegrationAsync(
-    new PostIntegrationsRequest
+await client.Integrations.CreateAsync(
+    new CreateIntegrationsRequest
     {
         Type = "type",
+        Name = "name",
         Config = new Dictionary<string, object?>() { { "key", "value" } },
     }
 );
@@ -3542,7 +4521,7 @@ await client.Integrations.CreateAnIntegrationAsync(
 <dl>
 <dd>
 
-**request:** `PostIntegrationsRequest` 
+**request:** `CreateIntegrationsRequest` 
     
 </dd>
 </dl>
@@ -3554,9 +4533,25 @@ await client.Integrations.CreateAnIntegrationAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">GetAnIntegrationAsync</a>(GetIntegrationsIdRequest { ... }) -> GetIntegrationsIdResponse</code></summary>
+<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">RetrieveAsync</a>(RetrieveIntegrationsRequest { ... }) -> IntegrationResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve an integration by ID or slug (if supported).
+
+**Requires feature: integrations**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3567,7 +4562,7 @@ await client.Integrations.CreateAnIntegrationAsync(
 <dd>
 
 ```csharp
-await client.Integrations.GetAnIntegrationAsync(new GetIntegrationsIdRequest { Id = "id" });
+await client.Integrations.RetrieveAsync(new RetrieveIntegrationsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3582,7 +4577,7 @@ await client.Integrations.GetAnIntegrationAsync(new GetIntegrationsIdRequest { I
 <dl>
 <dd>
 
-**request:** `GetIntegrationsIdRequest` 
+**request:** `RetrieveIntegrationsRequest` 
     
 </dd>
 </dl>
@@ -3594,9 +4589,25 @@ await client.Integrations.GetAnIntegrationAsync(new GetIntegrationsIdRequest { I
 </dl>
 </details>
 
-<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">DeleteAnIntegrationAsync</a>(DeleteIntegrationsIdRequest { ... }) -> DeleteIntegrationsIdResponse</code></summary>
+<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">DeleteAsync</a>(DeleteIntegrationsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete an integration.
+
+**Requires feature: integrations**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3607,7 +4618,7 @@ await client.Integrations.GetAnIntegrationAsync(new GetIntegrationsIdRequest { I
 <dd>
 
 ```csharp
-await client.Integrations.DeleteAnIntegrationAsync(new DeleteIntegrationsIdRequest { Id = "id" });
+await client.Integrations.DeleteAsync(new DeleteIntegrationsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3622,7 +4633,7 @@ await client.Integrations.DeleteAnIntegrationAsync(new DeleteIntegrationsIdReque
 <dl>
 <dd>
 
-**request:** `DeleteIntegrationsIdRequest` 
+**request:** `DeleteIntegrationsRequest` 
     
 </dd>
 </dl>
@@ -3634,9 +4645,25 @@ await client.Integrations.DeleteAnIntegrationAsync(new DeleteIntegrationsIdReque
 </dl>
 </details>
 
-<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">UpdateAnIntegrationAsync</a>(PatchIntegrationsIdRequest { ... }) -> PatchIntegrationsIdResponse</code></summary>
+<details><summary><code>client.Integrations.<a href="/src/ForuMsApi/Integrations/IntegrationsClient.cs">UpdateAsync</a>(UpdateIntegrationsRequest { ... }) -> UpdateIntegrationsResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing integration. Only provided fields will be modified.
+
+**Requires feature: integrations**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3647,7 +4674,7 @@ await client.Integrations.DeleteAnIntegrationAsync(new DeleteIntegrationsIdReque
 <dd>
 
 ```csharp
-await client.Integrations.UpdateAnIntegrationAsync(new PatchIntegrationsIdRequest { Id = "id" });
+await client.Integrations.UpdateAsync(new UpdateIntegrationsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3662,7 +4689,7 @@ await client.Integrations.UpdateAnIntegrationAsync(new PatchIntegrationsIdReques
 <dl>
 <dd>
 
-**request:** `PatchIntegrationsIdRequest` 
+**request:** `UpdateIntegrationsRequest` 
     
 </dd>
 </dl>
@@ -3674,10 +4701,26 @@ await client.Integrations.UpdateAnIntegrationAsync(new PatchIntegrationsIdReques
 </dl>
 </details>
 
-## SsOs
-<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">ListAllSsOsAsync</a>(GetSsoRequest { ... }) -> GetSsoResponse</code></summary>
+## SSOs
+<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">ListAsync</a>(ListSsOsRequest { ... }) -> SsoListResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a paginated list of ssos. Use cursor for pagination.
+
+**Requires feature: sso**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3688,7 +4731,7 @@ await client.Integrations.UpdateAnIntegrationAsync(new PatchIntegrationsIdReques
 <dd>
 
 ```csharp
-await client.SsOs.ListAllSsOsAsync(new GetSsoRequest());
+await client.SsOs.ListAsync(new ListSsOsRequest());
 ```
 </dd>
 </dl>
@@ -3703,7 +4746,7 @@ await client.SsOs.ListAllSsOsAsync(new GetSsoRequest());
 <dl>
 <dd>
 
-**request:** `GetSsoRequest` 
+**request:** `ListSsOsRequest` 
     
 </dd>
 </dl>
@@ -3715,9 +4758,25 @@ await client.SsOs.ListAllSsOsAsync(new GetSsoRequest());
 </dl>
 </details>
 
-<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">CreateAnSsoAsync</a>(PostSsoRequest { ... }) -> PostSsoResponse</code></summary>
+<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">CreateAsync</a>(CreateSsOsRequest { ... }) -> SsoResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create an new sso.
+
+**Requires feature: sso**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3728,16 +4787,12 @@ await client.SsOs.ListAllSsOsAsync(new GetSsoRequest());
 <dd>
 
 ```csharp
-await client.SsOs.CreateAnSsoAsync(
-    new PostSsoRequest
+await client.SsOs.CreateAsync(
+    new CreateSsOsRequest
     {
-        Name = "name",
-        ClientId = "clientId",
-        ClientSecret = "clientSecret",
-        Issuer = "issuer",
-        AuthorizationEndpoint = "authorizationEndpoint",
-        TokenEndpoint = "tokenEndpoint",
-        UserInfoEndpoint = "userInfoEndpoint",
+        Provider = CreateSsOsRequestProvider.Okta,
+        Domain = "domain",
+        Config = new Dictionary<string, object?>() { { "key", "value" } },
     }
 );
 ```
@@ -3754,7 +4809,7 @@ await client.SsOs.CreateAnSsoAsync(
 <dl>
 <dd>
 
-**request:** `PostSsoRequest` 
+**request:** `CreateSsOsRequest` 
     
 </dd>
 </dl>
@@ -3766,9 +4821,25 @@ await client.SsOs.CreateAnSsoAsync(
 </dl>
 </details>
 
-<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">GetAnSsoAsync</a>(GetSsoIdRequest { ... }) -> GetSsoIdResponse</code></summary>
+<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">RetrieveAsync</a>(RetrieveSsOsRequest { ... }) -> SsoResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve an sso by ID or slug (if supported).
+
+**Requires feature: sso**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3779,7 +4850,7 @@ await client.SsOs.CreateAnSsoAsync(
 <dd>
 
 ```csharp
-await client.SsOs.GetAnSsoAsync(new GetSsoIdRequest { Id = "id" });
+await client.SsOs.RetrieveAsync(new RetrieveSsOsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3794,7 +4865,7 @@ await client.SsOs.GetAnSsoAsync(new GetSsoIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `GetSsoIdRequest` 
+**request:** `RetrieveSsOsRequest` 
     
 </dd>
 </dl>
@@ -3806,9 +4877,25 @@ await client.SsOs.GetAnSsoAsync(new GetSsoIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">DeleteAnSsoAsync</a>(DeleteSsoIdRequest { ... }) -> DeleteSsoIdResponse</code></summary>
+<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">DeleteAsync</a>(DeleteSsOsRequest { ... }) -> SuccessResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete an sso.
+
+**Requires feature: sso**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3819,7 +4906,7 @@ await client.SsOs.GetAnSsoAsync(new GetSsoIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.SsOs.DeleteAnSsoAsync(new DeleteSsoIdRequest { Id = "id" });
+await client.SsOs.DeleteAsync(new DeleteSsOsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3834,7 +4921,7 @@ await client.SsOs.DeleteAnSsoAsync(new DeleteSsoIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `DeleteSsoIdRequest` 
+**request:** `DeleteSsOsRequest` 
     
 </dd>
 </dl>
@@ -3846,9 +4933,25 @@ await client.SsOs.DeleteAnSsoAsync(new DeleteSsoIdRequest { Id = "id" });
 </dl>
 </details>
 
-<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">UpdateAnSsoAsync</a>(PatchSsoIdRequest { ... }) -> PatchSsoIdResponse</code></summary>
+<details><summary><code>client.SsOs.<a href="/src/ForuMsApi/SsOs/SsOsClient.cs">UpdateAsync</a>(UpdateSsOsRequest { ... }) -> UpdateSsOsResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing sso. Only provided fields will be modified.
+
+**Requires feature: sso**
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3859,7 +4962,7 @@ await client.SsOs.DeleteAnSsoAsync(new DeleteSsoIdRequest { Id = "id" });
 <dd>
 
 ```csharp
-await client.SsOs.UpdateAnSsoAsync(new PatchSsoIdRequest { Id = "id" });
+await client.SsOs.UpdateAsync(new UpdateSsOsRequest { Id = "id" });
 ```
 </dd>
 </dl>
@@ -3874,7 +4977,1362 @@ await client.SsOs.UpdateAnSsoAsync(new PatchSsoIdRequest { Id = "id" });
 <dl>
 <dd>
 
-**request:** `PatchSsoIdRequest` 
+**request:** `UpdateSsOsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Provisioning
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">ListAsync</a>(ListProvisioningRequest { ... }) -> ListProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve all instances owned by the authenticated user. Use the `handle` query parameter to get a single instance with its API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.ListAsync(
+    new ListProvisioningRequest { ProvisioningKey = "x-provisioning-key" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">CreateAsync</a>(CreateInstance { ... }) -> CreateProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new forum instance. Returns the instance details including the API key for accessing the forum API.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.CreateAsync(
+    new CreateInstance
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Name = "name",
+        Handle = "handle",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `CreateInstance` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">UpdateAsync</a>(UpdateInstance { ... }) -> UpdateProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an instance's name or handle. The `handle` field identifies which instance to update.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.UpdateAsync(
+    new UpdateInstance { ProvisioningKey = "x-provisioning-key", Handle = "handle" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `UpdateInstance` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">DeleteAsync</a>(DeleteInstance { ... }) -> DeleteProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete an instance. This action cannot be undone.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.DeleteAsync(
+    new DeleteInstance { ProvisioningKey = "x-provisioning-key", Handle = "handle" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `DeleteInstance` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">GetBillingAsync</a>(GetBillingProvisioningRequest { ... }) -> GetBillingProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve billing and subscription information for an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.GetBillingAsync(
+    new GetBillingProvisioningRequest { Handle = "handle", ProvisioningKey = "x-provisioning-key" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `GetBillingProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">ChangePlanAsync</a>(UpgradeInstance { ... }) -> ChangePlanProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Change an instance's subscription plan. Returns a checkout URL for upgrades or a billing portal URL for downgrades.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.ChangePlanAsync(
+    new UpgradeInstance
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        Plan = UpgradeInstancePlan.Free,
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `UpgradeInstance` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">RegenerateApiKeyAsync</a>(RegenerateApiKeyProvisioningRequest { ... }) -> RegenerateApiKeyProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Generate a new API key for the instance. The old key will be invalidated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.RegenerateApiKeyAsync(
+    new RegenerateApiKeyProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RegenerateApiKeyProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">GetUsageAsync</a>(GetUsageProvisioningRequest { ... }) -> GetUsageProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve usage statistics for an instance including API requests, storage, and content counts.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.GetUsageAsync(
+    new GetUsageProvisioningRequest { Handle = "handle", ProvisioningKey = "x-provisioning-key" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `GetUsageProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">ListTeamAsync</a>(ListTeamProvisioningRequest { ... }) -> ListTeamProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve all team members for an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.ListTeamAsync(
+    new ListTeamProvisioningRequest { Handle = "handle", ProvisioningKey = "x-provisioning-key" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListTeamProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">InviteTeamAsync</a>(InviteTeamProvisioningRequest { ... }) -> InviteTeamProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Invite new team members to an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.InviteTeamAsync(
+    new InviteTeamProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        Members = new List<InviteTeamProvisioningRequestMembersItem>()
+        {
+            new InviteTeamProvisioningRequestMembersItem { Email = "email" },
+        },
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `InviteTeamProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">RemoveTeamMemberAsync</a>(RemoveTeamMemberProvisioningRequest { ... }) -> RemoveTeamMemberProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Remove a team member from an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.RemoveTeamMemberAsync(
+    new RemoveTeamMemberProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        Email = "email",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RemoveTeamMemberProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">ListDomainsAsync</a>(ListDomainsProvisioningRequest { ... }) -> ListDomainsProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve all custom domains for an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.ListDomainsAsync(
+    new ListDomainsProvisioningRequest { Handle = "handle", ProvisioningKey = "x-provisioning-key" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListDomainsProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">AddDomainAsync</a>(AddDomainProvisioningRequest { ... }) -> AddDomainProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Add a custom domain to an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.AddDomainAsync(
+    new AddDomainProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        Name = "name",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `AddDomainProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">RemoveDomainAsync</a>(RemoveDomainProvisioningRequest { ... }) -> RemoveDomainProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Remove a custom domain from an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.RemoveDomainAsync(
+    new RemoveDomainProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        Name = "name",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RemoveDomainProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">ExportDataAsync</a>(ExportDataProvisioningRequest { ... }) -> ExportDataProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Export all data from an instance including threads, posts, users, tags, etc.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.ExportDataAsync(
+    new ExportDataProvisioningRequest { ProvisioningKey = "x-provisioning-key", Handle = "handle" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ExportDataProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">ListWebhooksAsync</a>(ListWebhooksProvisioningRequest { ... }) -> ListWebhooksProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve all webhooks configured for an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.ListWebhooksAsync(
+    new ListWebhooksProvisioningRequest
+    {
+        Handle = "handle",
+        ProvisioningKey = "x-provisioning-key",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListWebhooksProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">CreateWebhookAsync</a>(CreateWebhookProvisioningRequest { ... }) -> CreateWebhookProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new webhook for an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.CreateWebhookAsync(
+    new CreateWebhookProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        Url = "url",
+        Events = new List<string>() { "events" },
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `CreateWebhookProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">UpdateWebhookAsync</a>(UpdateWebhookProvisioningRequest { ... }) -> UpdateWebhookProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing webhook.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.UpdateWebhookAsync(
+    new UpdateWebhookProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        WebhookId = "webhookId",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `UpdateWebhookProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">DeleteWebhookAsync</a>(DeleteWebhookProvisioningRequest { ... }) -> DeleteWebhookProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a webhook from an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.DeleteWebhookAsync(
+    new DeleteWebhookProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        WebhookId = "webhookId",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `DeleteWebhookProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">GetOwnershipAsync</a>(GetOwnershipProvisioningRequest { ... }) -> GetOwnershipProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve owner and creator information for an instance.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.GetOwnershipAsync(
+    new GetOwnershipProvisioningRequest
+    {
+        Handle = "handle",
+        ProvisioningKey = "x-provisioning-key",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `GetOwnershipProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">TransferOwnershipAsync</a>(TransferOwnershipProvisioningRequest { ... }) -> TransferOwnershipProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Transfer instance ownership to another user. Only the current owner can transfer ownership.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.TransferOwnershipAsync(
+    new TransferOwnershipProvisioningRequest
+    {
+        ProvisioningKey = "x-provisioning-key",
+        Handle = "handle",
+        NewOwnerEmail = "newOwnerEmail",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `TransferOwnershipProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">RegisterAsync</a>(RegisterProvisioningRequest { ... }) -> RegisterProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new account and receive a provisioning key for API access. Use this key to create and manage instances.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.RegisterAsync(
+    new RegisterProvisioningRequest { Email = "email", Password = "password" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `RegisterProvisioningRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Provisioning.<a href="/src/ForuMsApi/Provisioning/ProvisioningClient.cs">LoginAsync</a>(LoginProvisioningRequest { ... }) -> LoginProvisioningResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Login with email and password to retrieve your provisioning key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Provisioning.LoginAsync(
+    new LoginProvisioningRequest { Email = "email", Password = "password" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `LoginProvisioningRequest` 
     
 </dd>
 </dl>

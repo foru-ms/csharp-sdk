@@ -19,7 +19,34 @@ public class LoginTest : BaseMockServerTest
 
         const string mockResponse = """
             {
-              "token": "token"
+              "data": {
+                "token": "token",
+                "user": {
+                  "id": "id",
+                  "username": "username",
+                  "email": "email",
+                  "displayName": "displayName",
+                  "bio": "bio",
+                  "signature": "signature",
+                  "url": "url",
+                  "postsCount": 1,
+                  "threadsCount": 1,
+                  "isOnline": true,
+                  "lastSeenAt": "lastSeenAt",
+                  "roles": [
+                    {
+                      "id": "id",
+                      "name": "name",
+                      "slug": null
+                    }
+                  ],
+                  "extendedData": {
+                    "key": "value"
+                  },
+                  "createdAt": "createdAt",
+                  "updatedAt": "updatedAt"
+                }
+              }
             }
             """;
 
@@ -40,11 +67,11 @@ public class LoginTest : BaseMockServerTest
             );
 
         var response = await Client.Auth.LoginAsync(
-            new PostAuthLoginRequest { Login = "login", Password = "password" }
+            new LoginAuthRequest { Login = "login", Password = "password" }
         );
         Assert.That(
             response,
-            Is.EqualTo(JsonUtils.Deserialize<PostAuthLoginResponse>(mockResponse)).UsingDefaults()
+            Is.EqualTo(JsonUtils.Deserialize<LoginResponse>(mockResponse)).UsingDefaults()
         );
     }
 }

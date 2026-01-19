@@ -2,32 +2,57 @@ namespace ForuMsApi;
 
 public partial interface ISsOsClient
 {
-    Task<GetSsoResponse> ListAllSsOsAsync(
-        GetSsoRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of ssos. Use cursor for pagination.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
+    Task<SsoListResponse> ListAsync(
+        ListSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PostSsoResponse> CreateAnSsoAsync(
-        PostSsoRequest request,
+    /// <summary>
+    /// Create an new sso.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
+    Task<SsoResponse> CreateAsync(
+        CreateSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetSsoIdResponse> GetAnSsoAsync(
-        GetSsoIdRequest request,
+    /// <summary>
+    /// Retrieve an sso by ID or slug (if supported).
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
+    Task<SsoResponse> RetrieveAsync(
+        RetrieveSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteSsoIdResponse> DeleteAnSsoAsync(
-        DeleteSsoIdRequest request,
+    /// <summary>
+    /// Permanently delete an sso.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
+    Task<SuccessResponse> DeleteAsync(
+        DeleteSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PatchSsoIdResponse> UpdateAnSsoAsync(
-        PatchSsoIdRequest request,
+    /// <summary>
+    /// Update an existing sso. Only provided fields will be modified.
+    ///
+    /// **Requires feature: sso**
+    /// </summary>
+    Task<UpdateSsOsResponse> UpdateAsync(
+        UpdateSsOsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

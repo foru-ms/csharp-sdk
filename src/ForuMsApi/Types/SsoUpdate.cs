@@ -4,9 +4,6 @@ using ForuMsApi.Core;
 
 namespace ForuMsApi;
 
-/// <summary>
-/// Partial OIDC provider update
-/// </summary>
 [Serializable]
 public record SsoUpdate : IJsonOnDeserialized
 {
@@ -15,10 +12,10 @@ public record SsoUpdate : IJsonOnDeserialized
         new Dictionary<string, JsonElement>();
 
     /// <summary>
-    /// Provider name
+    /// SSO provider type
     /// </summary>
-    [JsonPropertyName("name")]
-    public string? Name { get; set; }
+    [JsonPropertyName("provider")]
+    public SsoUpdateProvider? Provider { get; set; }
 
     /// <summary>
     /// Email domain to match
@@ -26,29 +23,23 @@ public record SsoUpdate : IJsonOnDeserialized
     [JsonPropertyName("domain")]
     public string? Domain { get; set; }
 
-    [JsonPropertyName("clientId")]
-    public string? ClientId { get; set; }
-
-    [JsonPropertyName("clientSecret")]
-    public string? ClientSecret { get; set; }
-
-    [JsonPropertyName("issuer")]
-    public string? Issuer { get; set; }
-
-    [JsonPropertyName("authorizationEndpoint")]
-    public string? AuthorizationEndpoint { get; set; }
-
-    [JsonPropertyName("tokenEndpoint")]
-    public string? TokenEndpoint { get; set; }
-
-    [JsonPropertyName("userInfoEndpoint")]
-    public string? UserInfoEndpoint { get; set; }
+    /// <summary>
+    /// Provider configuration
+    /// </summary>
+    [JsonPropertyName("config")]
+    public Dictionary<string, object?>? Config { get; set; }
 
     /// <summary>
     /// Enable/disable provider
     /// </summary>
     [JsonPropertyName("active")]
     public bool? Active { get; set; }
+
+    /// <summary>
+    /// Custom extended data
+    /// </summary>
+    [JsonPropertyName("extendedData")]
+    public Dictionary<string, object?>? ExtendedData { get; set; }
 
     [JsonIgnore]
     public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();

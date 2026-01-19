@@ -2,83 +2,98 @@ namespace ForuMsApi;
 
 public partial interface IPostsClient
 {
-    Task<GetPostsResponse> ListAllPostsAsync(
-        GetPostsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<PostPostsResponse> CreateAPostAsync(
-        PostPostsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<GetPostsIdResponse> GetAPostAsync(
-        GetPostsIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<DeletePostsIdResponse> DeleteAPostAsync(
-        DeletePostsIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<PatchPostsIdResponse> UpdateAPostAsync(
-        PatchPostsIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<GetPostsIdReactionsResponse> ListPostReactionsAsync(
-        GetPostsIdReactionsRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    );
-
-    Task<PostPostsIdReactionsResponse> CreateAReactionInPostAsync(
-        PostPostsIdReactionsRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of posts. Use cursor for pagination.
+    /// </summary>
+    Task<PostListResponse> ListAsync(
+        ListPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
     /// <summary>
-    /// Removes the authenticated user's reaction. No subId needed.
+    /// Create a new post.
     /// </summary>
-    Task<DeletePostsIdReactionsResponse> RemoveYourReactionFromPostAsync(
-        DeletePostsIdReactionsRequest request,
+    Task<PostResponse> CreateAsync(
+        CreatePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetPostsIdReactionsSubIdResponse> GetAReactionFromPostAsync(
-        GetPostsIdReactionsSubIdRequest request,
+    /// <summary>
+    /// Retrieve a post by ID or slug (if supported).
+    /// </summary>
+    Task<PostResponse> RetrieveAsync(
+        RetrievePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeletePostsIdReactionsSubIdResponse> DeleteAReactionFromPostAsync(
-        DeletePostsIdReactionsSubIdRequest request,
+    /// <summary>
+    /// Permanently delete a post.
+    /// </summary>
+    Task<SuccessResponse> DeleteAsync(
+        DeletePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetPostsIdPostsResponse> ListPostPostsAsync(
-        GetPostsIdPostsRequest request,
+    /// <summary>
+    /// Update an existing post. Only provided fields will be modified.
+    /// </summary>
+    Task<UpdatePostsResponse> UpdateAsync(
+        UpdatePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetPostsIdPostsSubIdResponse> GetAPostFromPostAsync(
-        GetPostsIdPostsSubIdRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of reactions for Post.
+    /// </summary>
+    Task<PostReactionListResponse> ListReactionsAsync(
+        ListReactionsPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeletePostsIdPostsSubIdResponse> DeleteAPostFromPostAsync(
-        DeletePostsIdPostsSubIdRequest request,
+    /// <summary>
+    /// Create a Reaction in Post.
+    /// </summary>
+    Task<PostReactionResponse> CreateReactionAsync(
+        CreateReactionPostsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<SuccessResponse> DeleteReactionAsync(
+        DeleteReactionPostsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<RetrieveReactionPostsResponse> RetrieveReactionAsync(
+        RetrieveReactionPostsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Retrieve a paginated list of posts for Post.
+    /// </summary>
+    Task<PostPostListResponse> ListPostsAsync(
+        ListPostsPostsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<RetrievePostPostsResponse> RetrievePostAsync(
+        RetrievePostPostsRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<SuccessResponse> DeletePostAsync(
+        DeletePostPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

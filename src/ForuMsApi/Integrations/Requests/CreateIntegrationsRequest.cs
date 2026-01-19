@@ -1,0 +1,44 @@
+using System.Text.Json.Serialization;
+using ForuMsApi.Core;
+
+namespace ForuMsApi;
+
+[Serializable]
+public record CreateIntegrationsRequest
+{
+    /// <summary>
+    /// Integration type (e.g. SLACK, DISCORD)
+    /// </summary>
+    [JsonPropertyName("type")]
+    public required string Type { get; set; }
+
+    /// <summary>
+    /// Integration name
+    /// </summary>
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+
+    /// <summary>
+    /// JSON configuration
+    /// </summary>
+    [JsonPropertyName("config")]
+    public Dictionary<string, object?> Config { get; set; } = new Dictionary<string, object?>();
+
+    /// <summary>
+    /// Whether integration is active
+    /// </summary>
+    [JsonPropertyName("active")]
+    public bool? Active { get; set; }
+
+    /// <summary>
+    /// Custom extended data
+    /// </summary>
+    [JsonPropertyName("extendedData")]
+    public Dictionary<string, object?>? ExtendedData { get; set; }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
+}

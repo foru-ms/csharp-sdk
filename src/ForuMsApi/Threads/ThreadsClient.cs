@@ -12,27 +12,42 @@ public partial class ThreadsClient : IThreadsClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of threads. Use cursor for pagination.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.ListAllThreadsAsync(new GetThreadsRequest());
+    /// await client.Threads.ListAsync(new ListThreadsRequest());
     /// </code></example>
-    public async Task<GetThreadsResponse> ListAllThreadsAsync(
-        GetThreadsRequest request,
+    public async Task<ThreadListResponse> ListAsync(
+        ListThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
+        if (request.Cursor != null)
+        {
+            _query["cursor"] = request.Cursor;
+        }
         if (request.Search != null)
         {
             _query["search"] = request.Search;
+        }
+        if (request.TagId != null)
+        {
+            _query["tagId"] = request.TagId;
+        }
+        if (request.UserId != null)
+        {
+            _query["userId"] = request.UserId;
+        }
+        if (request.Sort != null)
+        {
+            _query["sort"] = request.Sort.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +67,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +103,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,11 +111,14 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Create a new thread.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.CreateAThreadAsync(new PostThreadsRequest { Title = "title", Body = "body" });
+    /// await client.Threads.CreateAsync(new CreateThreadsRequest { Title = "title", Body = "body" });
     /// </code></example>
-    public async Task<PostThreadsResponse> CreateAThreadAsync(
-        PostThreadsRequest request,
+    public async Task<ThreadResponse> CreateAsync(
+        CreateThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -124,11 +142,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostThreadsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -164,7 +182,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -172,11 +190,14 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a thread by ID or slug (if supported).
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.GetAThreadAsync(new GetThreadsIdRequest { Id = "id" });
+    /// await client.Threads.RetrieveAsync(new RetrieveThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetThreadsIdResponse> GetAThreadAsync(
-        GetThreadsIdRequest request,
+    public async Task<ThreadResponse> RetrieveAsync(
+        RetrieveThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -201,11 +222,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -239,7 +260,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -247,11 +268,14 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a thread.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.DeleteAThreadAsync(new DeleteThreadsIdRequest { Id = "id" });
+    /// await client.Threads.DeleteAsync(new DeleteThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteThreadsIdResponse> DeleteAThreadAsync(
-        DeleteThreadsIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -276,11 +300,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteThreadsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -314,7 +338,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -322,11 +346,14 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Update an existing thread. Only provided fields will be modified.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.UpdateAThreadAsync(new PatchThreadsIdRequest { Id = "id" });
+    /// await client.Threads.UpdateAsync(new UpdateThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchThreadsIdResponse> UpdateAThreadAsync(
-        PatchThreadsIdRequest request,
+    public async Task<UpdateThreadsResponse> UpdateAsync(
+        UpdateThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -353,11 +380,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchThreadsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdateThreadsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -395,7 +422,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -403,23 +430,42 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of posts for Thread.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.ListThreadPostsAsync(new GetThreadsIdPostsRequest { Id = "id" });
+    /// await client.Threads.ListPostsAsync(new ListPostsThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetThreadsIdPostsResponse> ListThreadPostsAsync(
-        GetThreadsIdPostsRequest request,
+    public async Task<ThreadPostListResponse> ListPostsAsync(
+        ListPostsThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
+        if (request.Limit != null)
+        {
+            _query["limit"] = request.Limit.Value.ToString();
+        }
         if (request.Cursor != null)
         {
             _query["cursor"] = request.Cursor;
         }
-        if (request.Limit != null)
+        if (request.UserId != null)
         {
-            _query["limit"] = request.Limit.Value.ToString();
+            _query["userId"] = request.UserId;
+        }
+        if (request.Sort != null)
+        {
+            _query["sort"] = request.Sort.Value.Stringify();
+        }
+        if (request.Search != null)
+        {
+            _query["search"] = request.Search;
+        }
+        if (request.Type != null)
+        {
+            _query["type"] = request.Type.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -442,11 +488,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdPostsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadPostListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -476,7 +522,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -485,12 +531,12 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.GetAPostFromThreadAsync(
-    ///     new GetThreadsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Threads.RetrievePostAsync(
+    ///     new RetrievePostThreadsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetThreadsIdPostsSubIdResponse> GetAPostFromThreadAsync(
-        GetThreadsIdPostsSubIdRequest request,
+    public async Task<RetrievePostThreadsResponse> RetrievePostAsync(
+        RetrievePostThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -516,11 +562,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdPostsSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrievePostThreadsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -550,7 +596,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -559,12 +605,10 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.DeleteAPostFromThreadAsync(
-    ///     new DeleteThreadsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
-    /// );
+    /// await client.Threads.DeletePostAsync(new DeletePostThreadsRequest { Id = "id", SubId = "subId" });
     /// </code></example>
-    public async Task<DeleteThreadsIdPostsSubIdResponse> DeleteAPostFromThreadAsync(
-        DeleteThreadsIdPostsSubIdRequest request,
+    public async Task<SuccessResponse> DeletePostAsync(
+        DeletePostThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -590,11 +634,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteThreadsIdPostsSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -624,7 +668,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -632,23 +676,30 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of reactions for Thread.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.ListThreadReactionsAsync(new GetThreadsIdReactionsRequest { Id = "id" });
+    /// await client.Threads.ListReactionsAsync(new ListReactionsThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetThreadsIdReactionsResponse> ListThreadReactionsAsync(
-        GetThreadsIdReactionsRequest request,
+    public async Task<ThreadReactionListResponse> ListReactionsAsync(
+        ListReactionsThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
+        if (request.Limit != null)
+        {
+            _query["limit"] = request.Limit.Value.ToString();
+        }
         if (request.Cursor != null)
         {
             _query["cursor"] = request.Cursor;
         }
-        if (request.Limit != null)
+        if (request.Type != null)
         {
-            _query["limit"] = request.Limit.Value.ToString();
+            _query["type"] = request.Type.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -671,11 +722,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdReactionsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadReactionListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -705,7 +756,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -713,13 +764,16 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Create a Reaction in Thread.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.CreateAReactionInThreadAsync(
-    ///     new PostThreadsIdReactionsRequest { Id = "id", Type = PostThreadsIdReactionsRequestType.Like }
+    /// await client.Threads.CreateReactionAsync(
+    ///     new CreateReactionThreadsRequest { Id = "id", Type = CreateReactionThreadsRequestType.Like }
     /// );
     /// </code></example>
-    public async Task<PostThreadsIdReactionsResponse> CreateAReactionInThreadAsync(
-        PostThreadsIdReactionsRequest request,
+    public async Task<ThreadReactionResponse> CreateReactionAsync(
+        CreateReactionThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -746,11 +800,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostThreadsIdReactionsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadReactionResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -784,7 +838,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -792,16 +846,13 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
-    /// <summary>
-    /// Removes the authenticated user's reaction. No subId needed.
-    /// </summary>
     /// <example><code>
-    /// await client.Threads.RemoveYourReactionFromThreadAsync(
-    ///     new DeleteThreadsIdReactionsRequest { Id = "id" }
+    /// await client.Threads.DeleteReactionAsync(
+    ///     new DeleteReactionThreadsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<DeleteThreadsIdReactionsResponse> RemoveYourReactionFromThreadAsync(
-        DeleteThreadsIdReactionsRequest request,
+    public async Task<SuccessResponse> DeleteReactionAsync(
+        DeleteReactionThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -813,8 +864,9 @@ public partial class ThreadsClient : IThreadsClient
                     BaseUrl = _client.Options.BaseUrl,
                     Method = HttpMethod.Delete,
                     Path = string.Format(
-                        "threads/{0}/reactions",
-                        ValueConvert.ToPathParameterString(request.Id)
+                        "threads/{0}/reactions/{1}",
+                        ValueConvert.ToPathParameterString(request.Id),
+                        ValueConvert.ToPathParameterString(request.SubId)
                     ),
                     Options = options,
                 },
@@ -826,11 +878,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteThreadsIdReactionsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -860,7 +912,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -869,12 +921,12 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.GetAReactionFromThreadAsync(
-    ///     new GetThreadsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Threads.RetrieveReactionAsync(
+    ///     new RetrieveReactionThreadsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetThreadsIdReactionsSubIdResponse> GetAReactionFromThreadAsync(
-        GetThreadsIdReactionsSubIdRequest request,
+    public async Task<RetrieveReactionThreadsResponse> RetrieveReactionAsync(
+        RetrieveReactionThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -900,11 +952,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdReactionsSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrieveReactionThreadsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -934,7 +986,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -942,97 +994,26 @@ public partial class ThreadsClient : IThreadsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of subscribers for Thread.
+    /// </summary>
     /// <example><code>
-    /// await client.Threads.DeleteAReactionFromThreadAsync(
-    ///     new DeleteThreadsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
-    /// );
+    /// await client.Threads.ListSubscribersAsync(new ListSubscribersThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteThreadsIdReactionsSubIdResponse> DeleteAReactionFromThreadAsync(
-        DeleteThreadsIdReactionsSubIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    )
-    {
-        var response = await _client
-            .SendRequestAsync(
-                new JsonRequest
-                {
-                    BaseUrl = _client.Options.BaseUrl,
-                    Method = HttpMethod.Delete,
-                    Path = string.Format(
-                        "threads/{0}/reactions/{1}",
-                        ValueConvert.ToPathParameterString(request.Id),
-                        ValueConvert.ToPathParameterString(request.SubId)
-                    ),
-                    Options = options,
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            var responseBody = await response.Raw.Content.ReadAsStringAsync();
-            try
-            {
-                return JsonUtils.Deserialize<DeleteThreadsIdReactionsSubIdResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new ForuMsApiException("Failed to deserialize response", e);
-            }
-        }
-
-        {
-            var responseBody = await response.Raw.Content.ReadAsStringAsync();
-            try
-            {
-                switch (response.StatusCode)
-                {
-                    case 401:
-                        throw new UnauthorizedError(
-                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
-                        );
-                    case 404:
-                        throw new NotFoundError(JsonUtils.Deserialize<ErrorResponse>(responseBody));
-                    case 429:
-                        throw new TooManyRequestsError(
-                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
-                        );
-                    case 500:
-                        throw new InternalServerError(
-                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
-                        );
-                }
-            }
-            catch (JsonException)
-            {
-                // unable to map error response, throwing generic error
-            }
-            throw new ForuMsApiApiException(
-                $"Error with status code {response.StatusCode}",
-                response.StatusCode,
-                responseBody
-            );
-        }
-    }
-
-    /// <example><code>
-    /// await client.Threads.ListThreadSubscribersAsync(new GetThreadsIdSubscribersRequest { Id = "id" });
-    /// </code></example>
-    public async Task<GetThreadsIdSubscribersResponse> ListThreadSubscribersAsync(
-        GetThreadsIdSubscribersRequest request,
+    public async Task<ThreadSubscriberListResponse> ListSubscribersAsync(
+        ListSubscribersThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Cursor != null)
-        {
-            _query["cursor"] = request.Cursor;
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
+        }
+        if (request.Cursor != null)
+        {
+            _query["cursor"] = request.Cursor;
         }
         var response = await _client
             .SendRequestAsync(
@@ -1055,11 +1036,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdSubscribersResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadSubscriberListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1089,7 +1070,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -1098,12 +1079,12 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.GetASubscriberFromThreadAsync(
-    ///     new GetThreadsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Threads.RetrieveSubscriberAsync(
+    ///     new RetrieveSubscriberThreadsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetThreadsIdSubscribersSubIdResponse> GetASubscriberFromThreadAsync(
-        GetThreadsIdSubscribersSubIdRequest request,
+    public async Task<RetrieveSubscriberThreadsResponse> RetrieveSubscriberAsync(
+        RetrieveSubscriberThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1129,11 +1110,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdSubscribersSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrieveSubscriberThreadsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1163,7 +1144,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -1172,12 +1153,12 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.DeleteASubscriberFromThreadAsync(
-    ///     new DeleteThreadsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Threads.DeleteSubscriberAsync(
+    ///     new DeleteSubscriberThreadsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<DeleteThreadsIdSubscribersSubIdResponse> DeleteASubscriberFromThreadAsync(
-        DeleteThreadsIdSubscribersSubIdRequest request,
+    public async Task<SuccessResponse> DeleteSubscriberAsync(
+        DeleteSubscriberThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1203,13 +1184,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteThreadsIdSubscribersSubIdResponse>(
-                    responseBody
-                )!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1239,7 +1218,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -1248,10 +1227,10 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.GetThreadPollAsync(new GetThreadsIdPollRequest { Id = "id" });
+    /// await client.Threads.RetrievePollAsync(new RetrievePollThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetThreadsIdPollResponse> GetThreadPollAsync(
-        GetThreadsIdPollRequest request,
+    public async Task<ThreadPollResponse> RetrievePollAsync(
+        RetrievePollThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1276,11 +1255,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetThreadsIdPollResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadPollResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1310,7 +1289,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -1319,20 +1298,20 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.CreateThreadPollAsync(
-    ///     new PostThreadsIdPollRequest
+    /// await client.Threads.CreatePollAsync(
+    ///     new CreatePollThreadsRequest
     ///     {
     ///         Id = "id",
     ///         Title = "title",
-    ///         Options = new List&lt;PostThreadsIdPollRequestOptionsItem&gt;()
+    ///         Options = new List&lt;CreatePollThreadsRequestOptionsItem&gt;()
     ///         {
-    ///             new PostThreadsIdPollRequestOptionsItem { Title = "title" },
+    ///             new CreatePollThreadsRequestOptionsItem { Title = "title" },
     ///         },
     ///     }
     /// );
     /// </code></example>
-    public async Task<PostThreadsIdPollResponse> CreateThreadPollAsync(
-        PostThreadsIdPollRequest request,
+    public async Task<ThreadPollResponse> CreatePollAsync(
+        CreatePollThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1359,11 +1338,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostThreadsIdPollResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadPollResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1397,7 +1376,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -1406,10 +1385,10 @@ public partial class ThreadsClient : IThreadsClient
     }
 
     /// <example><code>
-    /// await client.Threads.UpdateThreadPollAsync(new PatchThreadsIdPollRequest { Id = "id" });
+    /// await client.Threads.UpdatePollAsync(new UpdatePollThreadsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchThreadsIdPollResponse> UpdateThreadPollAsync(
-        PatchThreadsIdPollRequest request,
+    public async Task<ThreadPollResponse> UpdatePollAsync(
+        UpdatePollThreadsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1436,11 +1415,11 @@ public partial class ThreadsClient : IThreadsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchThreadsIdPollResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ThreadPollResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1474,7 +1453,7 @@ public partial class ThreadsClient : IThreadsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

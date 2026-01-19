@@ -2,62 +2,89 @@ namespace ForuMsApi;
 
 public partial interface IUsersClient
 {
-    Task<GetUsersResponse> ListAllUsersAsync(
-        GetUsersRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of users. Use cursor for pagination.
+    /// </summary>
+    Task<UserListResponse> ListAsync(
+        ListUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetUsersIdResponse> GetAUserAsync(
-        GetUsersIdRequest request,
+    /// <summary>
+    /// Create a new user.
+    /// </summary>
+    Task<UserResponse> CreateAsync(
+        CreateUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteUsersIdResponse> DeleteAUserAsync(
-        DeleteUsersIdRequest request,
+    /// <summary>
+    /// Retrieve a user by ID or slug (if supported).
+    /// </summary>
+    Task<UserResponse> RetrieveAsync(
+        RetrieveUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PatchUsersIdResponse> UpdateAUserAsync(
-        PatchUsersIdRequest request,
+    /// <summary>
+    /// Permanently delete a user.
+    /// </summary>
+    Task<SuccessResponse> DeleteAsync(
+        DeleteUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetUsersIdFollowersResponse> ListUserFollowersAsync(
-        GetUsersIdFollowersRequest request,
+    /// <summary>
+    /// Update an existing user. Only provided fields will be modified.
+    /// </summary>
+    Task<UpdateUsersResponse> UpdateAsync(
+        UpdateUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetUsersIdFollowersSubIdResponse> GetAFollowerFromUserAsync(
-        GetUsersIdFollowersSubIdRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of followers for User.
+    /// </summary>
+    Task<UserFollowerListResponse> ListFollowersAsync(
+        ListFollowersUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteUsersIdFollowersSubIdResponse> DeleteAFollowerFromUserAsync(
-        DeleteUsersIdFollowersSubIdRequest request,
+    Task<RetrieveFollowerUsersResponse> RetrieveFollowerAsync(
+        RetrieveFollowerUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetUsersIdFollowingResponse> ListUserFollowingAsync(
-        GetUsersIdFollowingRequest request,
+    Task<SuccessResponse> DeleteFollowerAsync(
+        DeleteFollowerUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetUsersIdFollowingSubIdResponse> GetAFollowingFromUserAsync(
-        GetUsersIdFollowingSubIdRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of following for User.
+    /// </summary>
+    Task<UserFollowingListResponse> ListFollowingAsync(
+        ListFollowingUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteUsersIdFollowingSubIdResponse> DeleteAFollowingFromUserAsync(
-        DeleteUsersIdFollowingSubIdRequest request,
+    Task<RetrieveFollowingUsersResponse> RetrieveFollowingAsync(
+        RetrieveFollowingUsersRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<SuccessResponse> DeleteFollowingAsync(
+        DeleteFollowingUsersRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

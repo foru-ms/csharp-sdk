@@ -2,32 +2,47 @@ namespace ForuMsApi;
 
 public partial interface INotificationsClient
 {
-    Task<GetNotificationsResponse> ListAllNotificationsAsync(
-        GetNotificationsRequest request,
+    /// <summary>
+    /// Retrieve a paginated list of notifications. Use cursor for pagination.
+    /// </summary>
+    Task<NotificationListResponse> ListAsync(
+        ListNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PostNotificationsResponse> CreateANotificationAsync(
-        PostNotificationsRequest request,
+    /// <summary>
+    /// Create a new notification.
+    /// </summary>
+    Task<NotificationResponse> CreateAsync(
+        CreateNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<GetNotificationsIdResponse> GetANotificationAsync(
-        GetNotificationsIdRequest request,
+    /// <summary>
+    /// Retrieve a notification by ID or slug (if supported).
+    /// </summary>
+    Task<NotificationResponse> RetrieveAsync(
+        RetrieveNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<DeleteNotificationsIdResponse> DeleteANotificationAsync(
-        DeleteNotificationsIdRequest request,
+    /// <summary>
+    /// Permanently delete a notification.
+    /// </summary>
+    Task<SuccessResponse> DeleteAsync(
+        DeleteNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
 
-    Task<PatchNotificationsIdResponse> UpdateANotificationAsync(
-        PatchNotificationsIdRequest request,
+    /// <summary>
+    /// Update an existing notification. Only provided fields will be modified.
+    /// </summary>
+    Task<UpdateNotificationsResponse> UpdateAsync(
+        UpdateNotificationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

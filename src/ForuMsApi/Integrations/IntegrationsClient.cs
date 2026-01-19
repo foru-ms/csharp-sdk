@@ -12,27 +12,28 @@ public partial class IntegrationsClient : IIntegrationsClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of integrations. Use cursor for pagination.
+    ///
+    /// **Requires feature: integrations**
+    /// </summary>
     /// <example><code>
-    /// await client.Integrations.ListAllIntegrationsAsync(new GetIntegrationsRequest());
+    /// await client.Integrations.ListAsync(new ListIntegrationsRequest());
     /// </code></example>
-    public async Task<GetIntegrationsResponse> ListAllIntegrationsAsync(
-        GetIntegrationsRequest request,
+    public async Task<IntegrationListResponse> ListAsync(
+        ListIntegrationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
-        if (request.Search != null)
+        if (request.Cursor != null)
         {
-            _query["search"] = request.Search;
+            _query["cursor"] = request.Cursor;
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +53,11 @@ public partial class IntegrationsClient : IIntegrationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetIntegrationsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<IntegrationListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +89,7 @@ public partial class IntegrationsClient : IIntegrationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,17 +97,23 @@ public partial class IntegrationsClient : IIntegrationsClient
         }
     }
 
+    /// <summary>
+    /// Create an new integration.
+    ///
+    /// **Requires feature: integrations**
+    /// </summary>
     /// <example><code>
-    /// await client.Integrations.CreateAnIntegrationAsync(
-    ///     new PostIntegrationsRequest
+    /// await client.Integrations.CreateAsync(
+    ///     new CreateIntegrationsRequest
     ///     {
     ///         Type = "type",
+    ///         Name = "name",
     ///         Config = new Dictionary&lt;string, object?&gt;() { { "key", "value" } },
     ///     }
     /// );
     /// </code></example>
-    public async Task<PostIntegrationsResponse> CreateAnIntegrationAsync(
-        PostIntegrationsRequest request,
+    public async Task<IntegrationResponse> CreateAsync(
+        CreateIntegrationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -130,11 +137,11 @@ public partial class IntegrationsClient : IIntegrationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostIntegrationsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<IntegrationResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -170,7 +177,7 @@ public partial class IntegrationsClient : IIntegrationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -178,11 +185,16 @@ public partial class IntegrationsClient : IIntegrationsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve an integration by ID or slug (if supported).
+    ///
+    /// **Requires feature: integrations**
+    /// </summary>
     /// <example><code>
-    /// await client.Integrations.GetAnIntegrationAsync(new GetIntegrationsIdRequest { Id = "id" });
+    /// await client.Integrations.RetrieveAsync(new RetrieveIntegrationsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetIntegrationsIdResponse> GetAnIntegrationAsync(
-        GetIntegrationsIdRequest request,
+    public async Task<IntegrationResponse> RetrieveAsync(
+        RetrieveIntegrationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -207,11 +219,11 @@ public partial class IntegrationsClient : IIntegrationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetIntegrationsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<IntegrationResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -245,7 +257,7 @@ public partial class IntegrationsClient : IIntegrationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -253,11 +265,16 @@ public partial class IntegrationsClient : IIntegrationsClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete an integration.
+    ///
+    /// **Requires feature: integrations**
+    /// </summary>
     /// <example><code>
-    /// await client.Integrations.DeleteAnIntegrationAsync(new DeleteIntegrationsIdRequest { Id = "id" });
+    /// await client.Integrations.DeleteAsync(new DeleteIntegrationsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteIntegrationsIdResponse> DeleteAnIntegrationAsync(
-        DeleteIntegrationsIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteIntegrationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -282,11 +299,11 @@ public partial class IntegrationsClient : IIntegrationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteIntegrationsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -320,7 +337,7 @@ public partial class IntegrationsClient : IIntegrationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -328,11 +345,16 @@ public partial class IntegrationsClient : IIntegrationsClient
         }
     }
 
+    /// <summary>
+    /// Update an existing integration. Only provided fields will be modified.
+    ///
+    /// **Requires feature: integrations**
+    /// </summary>
     /// <example><code>
-    /// await client.Integrations.UpdateAnIntegrationAsync(new PatchIntegrationsIdRequest { Id = "id" });
+    /// await client.Integrations.UpdateAsync(new UpdateIntegrationsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchIntegrationsIdResponse> UpdateAnIntegrationAsync(
-        PatchIntegrationsIdRequest request,
+    public async Task<UpdateIntegrationsResponse> UpdateAsync(
+        UpdateIntegrationsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -359,11 +381,11 @@ public partial class IntegrationsClient : IIntegrationsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchIntegrationsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdateIntegrationsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -401,7 +423,7 @@ public partial class IntegrationsClient : IIntegrationsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

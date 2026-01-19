@@ -5,7 +5,7 @@ namespace ForuMsApi;
 /// </summary>
 [Serializable]
 public class InternalServerError(ErrorResponse body)
-    : ForuMsApiApiException("InternalServerError", 500, body)
+    : ForumClientApiException("InternalServerError", 500, body)
 {
     /// <summary>
     /// The body of the response that triggered the exception.

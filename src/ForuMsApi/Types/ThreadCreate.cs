@@ -41,6 +41,24 @@ public record ThreadCreate : IJsonOnDeserialized
     [JsonPropertyName("poll")]
     public ThreadCreatePoll? Poll { get; set; }
 
+    /// <summary>
+    /// Lock thread on creation
+    /// </summary>
+    [JsonPropertyName("locked")]
+    public bool? Locked { get; set; }
+
+    /// <summary>
+    /// Pin thread on creation
+    /// </summary>
+    [JsonPropertyName("pinned")]
+    public bool? Pinned { get; set; }
+
+    /// <summary>
+    /// Custom extended data
+    /// </summary>
+    [JsonPropertyName("extendedData")]
+    public Dictionary<string, object?>? ExtendedData { get; set; }
+
     [JsonIgnore]
     public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();
 

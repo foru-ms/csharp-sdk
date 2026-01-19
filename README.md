@@ -1,11 +1,11 @@
-# Foru.ms C# Library
+# ForuMs C# Library
 
 ![](https://foru.ms/images/cover.png)
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fforu-ms%2Fcsharp-sdk)
 [![nuget shield](https://img.shields.io/nuget/v/ForuMsApi)](https://nuget.org/packages/ForuMsApi)
 
-The Foru.ms C# library provides convenient access to the Foru.ms APIs from C#.
+The ForuMs C# library provides convenient access to the ForuMs APIs from C#.
 
 ## Table of Contents
 
@@ -46,9 +46,9 @@ Instantiate and use the client with the following:
 ```csharp
 using ForuMsApi;
 
-var client = new ForuMsApiClient("API_KEY");
+var client = new ForumClient("API_KEY");
 await client.Auth.RegisterAsync(
-    new PostAuthRegisterRequest
+    new RegisterAuthRequest
     {
         Username = "username",
         Email = "email",
@@ -67,7 +67,7 @@ using ForuMsApi;
 
 try {
     var response = await client.Auth.RegisterAsync(...);
-} catch (ForuMsApiApiException e) {
+} catch (ForumClientApiException e) {
     System.Console.WriteLine(e.Body);
     System.Console.WriteLine(e.StatusCode);
 }
@@ -119,25 +119,25 @@ This SDK uses forward-compatible enums that can handle unknown values gracefully
 using ForuMsApi;
 
 // Using a built-in value
-var postThreadsIdReactionsRequestType = PostThreadsIdReactionsRequestType.Like;
+var searchSearchResponseDataItemsItemType = SearchSearchResponseDataItemsItemType.Thread;
 
 // Using a custom value
-var customPostThreadsIdReactionsRequestType = PostThreadsIdReactionsRequestType.FromCustom("custom-value");
+var customSearchSearchResponseDataItemsItemType = SearchSearchResponseDataItemsItemType.FromCustom("custom-value");
 
 // Using in a switch statement
-switch (postThreadsIdReactionsRequestType.Value)
+switch (searchSearchResponseDataItemsItemType.Value)
 {
-    case PostThreadsIdReactionsRequestType.Values.Like:
-        Console.WriteLine("Like");
+    case SearchSearchResponseDataItemsItemType.Values.Thread:
+        Console.WriteLine("Thread");
         break;
     default:
-        Console.WriteLine($"Unknown value: {postThreadsIdReactionsRequestType.Value}");
+        Console.WriteLine($"Unknown value: {searchSearchResponseDataItemsItemType.Value}");
         break;
 }
 
 // Explicit casting
-string postThreadsIdReactionsRequestTypeString = (string)PostThreadsIdReactionsRequestType.Like;
-PostThreadsIdReactionsRequestType postThreadsIdReactionsRequestTypeFromString = (PostThreadsIdReactionsRequestType)"LIKE";
+string searchSearchResponseDataItemsItemTypeString = (string)SearchSearchResponseDataItemsItemType.Thread;
+SearchSearchResponseDataItemsItemType searchSearchResponseDataItemsItemTypeFromString = (SearchSearchResponseDataItemsItemType)"thread";
 ```
 
 ## Contributing

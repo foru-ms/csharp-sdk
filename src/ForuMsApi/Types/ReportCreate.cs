@@ -18,6 +18,12 @@ public record ReportCreate : IJsonOnDeserialized
     public required string Type { get; set; }
 
     /// <summary>
+    /// Report status (default: pending)
+    /// </summary>
+    [JsonPropertyName("status")]
+    public string? Status { get; set; }
+
+    /// <summary>
     /// Reason for reporting
     /// </summary>
     [JsonPropertyName("description")]
@@ -52,6 +58,12 @@ public record ReportCreate : IJsonOnDeserialized
     /// </summary>
     [JsonPropertyName("privateMessageId")]
     public string? PrivateMessageId { get; set; }
+
+    /// <summary>
+    /// Custom extended data
+    /// </summary>
+    [JsonPropertyName("extendedData")]
+    public Dictionary<string, object?>? ExtendedData { get; set; }
 
     [JsonIgnore]
     public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();

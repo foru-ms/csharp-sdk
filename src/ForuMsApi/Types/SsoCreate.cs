@@ -4,9 +4,6 @@ using ForuMsApi.Core;
 
 namespace ForuMsApi;
 
-/// <summary>
-/// OIDC provider config
-/// </summary>
 [Serializable]
 public record SsoCreate : IJsonOnDeserialized
 {
@@ -15,28 +12,34 @@ public record SsoCreate : IJsonOnDeserialized
         new Dictionary<string, JsonElement>();
 
     /// <summary>
-    /// Provider name (e.g. Google)
+    /// SSO provider type
     /// </summary>
-    [JsonPropertyName("name")]
-    public required string Name { get; set; }
+    [JsonPropertyName("provider")]
+    public required SsoCreateProvider Provider { get; set; }
 
-    [JsonPropertyName("clientId")]
-    public required string ClientId { get; set; }
+    /// <summary>
+    /// Email domain to match (e.g. 'acme.com')
+    /// </summary>
+    [JsonPropertyName("domain")]
+    public required string Domain { get; set; }
 
-    [JsonPropertyName("clientSecret")]
-    public required string ClientSecret { get; set; }
+    /// <summary>
+    /// Provider configuration (clientId, issuer, etc.)
+    /// </summary>
+    [JsonPropertyName("config")]
+    public Dictionary<string, object?> Config { get; set; } = new Dictionary<string, object?>();
 
-    [JsonPropertyName("issuer")]
-    public required string Issuer { get; set; }
+    /// <summary>
+    /// Whether SSO is active
+    /// </summary>
+    [JsonPropertyName("active")]
+    public bool? Active { get; set; }
 
-    [JsonPropertyName("authorizationEndpoint")]
-    public required string AuthorizationEndpoint { get; set; }
-
-    [JsonPropertyName("tokenEndpoint")]
-    public required string TokenEndpoint { get; set; }
-
-    [JsonPropertyName("userInfoEndpoint")]
-    public required string UserInfoEndpoint { get; set; }
+    /// <summary>
+    /// Custom extended data
+    /// </summary>
+    [JsonPropertyName("extendedData")]
+    public Dictionary<string, object?>? ExtendedData { get; set; }
 
     [JsonIgnore]
     public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();

@@ -12,27 +12,42 @@ public partial class PostsClient : IPostsClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of posts. Use cursor for pagination.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.ListAllPostsAsync(new GetPostsRequest());
+    /// await client.Posts.ListAsync(new ListPostsRequest());
     /// </code></example>
-    public async Task<GetPostsResponse> ListAllPostsAsync(
-        GetPostsRequest request,
+    public async Task<PostListResponse> ListAsync(
+        ListPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
+        if (request.Cursor != null)
+        {
+            _query["cursor"] = request.Cursor;
+        }
+        if (request.UserId != null)
+        {
+            _query["userId"] = request.UserId;
+        }
+        if (request.Sort != null)
+        {
+            _query["sort"] = request.Sort.Value.Stringify();
+        }
         if (request.Search != null)
         {
             _query["search"] = request.Search;
+        }
+        if (request.Type != null)
+        {
+            _query["type"] = request.Type.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +67,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPostsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PostListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +103,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,11 +111,14 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Create a new post.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.CreateAPostAsync(new PostPostsRequest { ThreadId = "threadId", Body = "body" });
+    /// await client.Posts.CreateAsync(new CreatePostsRequest { ThreadId = "threadId", Body = "body" });
     /// </code></example>
-    public async Task<PostPostsResponse> CreateAPostAsync(
-        PostPostsRequest request,
+    public async Task<PostResponse> CreateAsync(
+        CreatePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -124,11 +142,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostPostsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PostResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -164,7 +182,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -172,11 +190,14 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a post by ID or slug (if supported).
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.GetAPostAsync(new GetPostsIdRequest { Id = "id" });
+    /// await client.Posts.RetrieveAsync(new RetrievePostsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetPostsIdResponse> GetAPostAsync(
-        GetPostsIdRequest request,
+    public async Task<PostResponse> RetrieveAsync(
+        RetrievePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -201,11 +222,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPostsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PostResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -239,7 +260,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -247,11 +268,14 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a post.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.DeleteAPostAsync(new DeletePostsIdRequest { Id = "id" });
+    /// await client.Posts.DeleteAsync(new DeletePostsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeletePostsIdResponse> DeleteAPostAsync(
-        DeletePostsIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeletePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -276,11 +300,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeletePostsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -314,7 +338,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -322,11 +346,14 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Update an existing post. Only provided fields will be modified.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.UpdateAPostAsync(new PatchPostsIdRequest { Id = "id" });
+    /// await client.Posts.UpdateAsync(new UpdatePostsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchPostsIdResponse> UpdateAPostAsync(
-        PatchPostsIdRequest request,
+    public async Task<UpdatePostsResponse> UpdateAsync(
+        UpdatePostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -353,11 +380,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchPostsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdatePostsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -395,7 +422,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -403,23 +430,30 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of reactions for Post.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.ListPostReactionsAsync(new GetPostsIdReactionsRequest { Id = "id" });
+    /// await client.Posts.ListReactionsAsync(new ListReactionsPostsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetPostsIdReactionsResponse> ListPostReactionsAsync(
-        GetPostsIdReactionsRequest request,
+    public async Task<PostReactionListResponse> ListReactionsAsync(
+        ListReactionsPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
+        if (request.Limit != null)
+        {
+            _query["limit"] = request.Limit.Value.ToString();
+        }
         if (request.Cursor != null)
         {
             _query["cursor"] = request.Cursor;
         }
-        if (request.Limit != null)
+        if (request.Type != null)
         {
-            _query["limit"] = request.Limit.Value.ToString();
+            _query["type"] = request.Type.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -442,11 +476,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPostsIdReactionsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PostReactionListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -476,7 +510,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -484,13 +518,16 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Create a Reaction in Post.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.CreateAReactionInPostAsync(
-    ///     new PostPostsIdReactionsRequest { Id = "id", Type = PostPostsIdReactionsRequestType.Like }
+    /// await client.Posts.CreateReactionAsync(
+    ///     new CreateReactionPostsRequest { Id = "id", Type = CreateReactionPostsRequestType.Like }
     /// );
     /// </code></example>
-    public async Task<PostPostsIdReactionsResponse> CreateAReactionInPostAsync(
-        PostPostsIdReactionsRequest request,
+    public async Task<PostReactionResponse> CreateReactionAsync(
+        CreateReactionPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -517,11 +554,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostPostsIdReactionsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PostReactionResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -555,7 +592,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -563,14 +600,13 @@ public partial class PostsClient : IPostsClient
         }
     }
 
-    /// <summary>
-    /// Removes the authenticated user's reaction. No subId needed.
-    /// </summary>
     /// <example><code>
-    /// await client.Posts.RemoveYourReactionFromPostAsync(new DeletePostsIdReactionsRequest { Id = "id" });
+    /// await client.Posts.DeleteReactionAsync(
+    ///     new DeleteReactionPostsRequest { Id = "id", SubId = "subId" }
+    /// );
     /// </code></example>
-    public async Task<DeletePostsIdReactionsResponse> RemoveYourReactionFromPostAsync(
-        DeletePostsIdReactionsRequest request,
+    public async Task<SuccessResponse> DeleteReactionAsync(
+        DeleteReactionPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -582,8 +618,9 @@ public partial class PostsClient : IPostsClient
                     BaseUrl = _client.Options.BaseUrl,
                     Method = HttpMethod.Delete,
                     Path = string.Format(
-                        "posts/{0}/reactions",
-                        ValueConvert.ToPathParameterString(request.Id)
+                        "posts/{0}/reactions/{1}",
+                        ValueConvert.ToPathParameterString(request.Id),
+                        ValueConvert.ToPathParameterString(request.SubId)
                     ),
                     Options = options,
                 },
@@ -595,11 +632,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeletePostsIdReactionsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -629,7 +666,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -638,12 +675,12 @@ public partial class PostsClient : IPostsClient
     }
 
     /// <example><code>
-    /// await client.Posts.GetAReactionFromPostAsync(
-    ///     new GetPostsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Posts.RetrieveReactionAsync(
+    ///     new RetrieveReactionPostsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetPostsIdReactionsSubIdResponse> GetAReactionFromPostAsync(
-        GetPostsIdReactionsSubIdRequest request,
+    public async Task<RetrieveReactionPostsResponse> RetrieveReactionAsync(
+        RetrieveReactionPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -669,11 +706,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPostsIdReactionsSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrieveReactionPostsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -703,7 +740,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -711,97 +748,42 @@ public partial class PostsClient : IPostsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of posts for Post.
+    /// </summary>
     /// <example><code>
-    /// await client.Posts.DeleteAReactionFromPostAsync(
-    ///     new DeletePostsIdReactionsSubIdRequest { Id = "id", SubId = "subId" }
-    /// );
+    /// await client.Posts.ListPostsAsync(new ListPostsPostsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeletePostsIdReactionsSubIdResponse> DeleteAReactionFromPostAsync(
-        DeletePostsIdReactionsSubIdRequest request,
-        RequestOptions? options = null,
-        CancellationToken cancellationToken = default
-    )
-    {
-        var response = await _client
-            .SendRequestAsync(
-                new JsonRequest
-                {
-                    BaseUrl = _client.Options.BaseUrl,
-                    Method = HttpMethod.Delete,
-                    Path = string.Format(
-                        "posts/{0}/reactions/{1}",
-                        ValueConvert.ToPathParameterString(request.Id),
-                        ValueConvert.ToPathParameterString(request.SubId)
-                    ),
-                    Options = options,
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            var responseBody = await response.Raw.Content.ReadAsStringAsync();
-            try
-            {
-                return JsonUtils.Deserialize<DeletePostsIdReactionsSubIdResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new ForuMsApiException("Failed to deserialize response", e);
-            }
-        }
-
-        {
-            var responseBody = await response.Raw.Content.ReadAsStringAsync();
-            try
-            {
-                switch (response.StatusCode)
-                {
-                    case 401:
-                        throw new UnauthorizedError(
-                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
-                        );
-                    case 404:
-                        throw new NotFoundError(JsonUtils.Deserialize<ErrorResponse>(responseBody));
-                    case 429:
-                        throw new TooManyRequestsError(
-                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
-                        );
-                    case 500:
-                        throw new InternalServerError(
-                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
-                        );
-                }
-            }
-            catch (JsonException)
-            {
-                // unable to map error response, throwing generic error
-            }
-            throw new ForuMsApiApiException(
-                $"Error with status code {response.StatusCode}",
-                response.StatusCode,
-                responseBody
-            );
-        }
-    }
-
-    /// <example><code>
-    /// await client.Posts.ListPostPostsAsync(new GetPostsIdPostsRequest { Id = "id" });
-    /// </code></example>
-    public async Task<GetPostsIdPostsResponse> ListPostPostsAsync(
-        GetPostsIdPostsRequest request,
+    public async Task<PostPostListResponse> ListPostsAsync(
+        ListPostsPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
+        if (request.Limit != null)
+        {
+            _query["limit"] = request.Limit.Value.ToString();
+        }
         if (request.Cursor != null)
         {
             _query["cursor"] = request.Cursor;
         }
-        if (request.Limit != null)
+        if (request.UserId != null)
         {
-            _query["limit"] = request.Limit.Value.ToString();
+            _query["userId"] = request.UserId;
+        }
+        if (request.Sort != null)
+        {
+            _query["sort"] = request.Sort.Value.Stringify();
+        }
+        if (request.Search != null)
+        {
+            _query["search"] = request.Search;
+        }
+        if (request.Type != null)
+        {
+            _query["type"] = request.Type.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -824,11 +806,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPostsIdPostsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<PostPostListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -858,7 +840,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -867,12 +849,10 @@ public partial class PostsClient : IPostsClient
     }
 
     /// <example><code>
-    /// await client.Posts.GetAPostFromPostAsync(
-    ///     new GetPostsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
-    /// );
+    /// await client.Posts.RetrievePostAsync(new RetrievePostPostsRequest { Id = "id", SubId = "subId" });
     /// </code></example>
-    public async Task<GetPostsIdPostsSubIdResponse> GetAPostFromPostAsync(
-        GetPostsIdPostsSubIdRequest request,
+    public async Task<RetrievePostPostsResponse> RetrievePostAsync(
+        RetrievePostPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -898,11 +878,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetPostsIdPostsSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrievePostPostsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -932,7 +912,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -941,12 +921,10 @@ public partial class PostsClient : IPostsClient
     }
 
     /// <example><code>
-    /// await client.Posts.DeleteAPostFromPostAsync(
-    ///     new DeletePostsIdPostsSubIdRequest { Id = "id", SubId = "subId" }
-    /// );
+    /// await client.Posts.DeletePostAsync(new DeletePostPostsRequest { Id = "id", SubId = "subId" });
     /// </code></example>
-    public async Task<DeletePostsIdPostsSubIdResponse> DeleteAPostFromPostAsync(
-        DeletePostsIdPostsSubIdRequest request,
+    public async Task<SuccessResponse> DeletePostAsync(
+        DeletePostPostsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -972,11 +950,11 @@ public partial class PostsClient : IPostsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeletePostsIdPostsSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -1006,7 +984,7 @@ public partial class PostsClient : IPostsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

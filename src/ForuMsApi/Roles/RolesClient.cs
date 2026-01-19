@@ -12,27 +12,34 @@ public partial class RolesClient : IRolesClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of roles. Use cursor for pagination.
+    /// </summary>
     /// <example><code>
-    /// await client.Roles.ListAllRolesAsync(new GetRolesRequest());
+    /// await client.Roles.ListAsync(new ListRolesRequest());
     /// </code></example>
-    public async Task<GetRolesResponse> ListAllRolesAsync(
-        GetRolesRequest request,
+    public async Task<RoleListResponse> ListAsync(
+        ListRolesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
+        if (request.Cursor != null)
+        {
+            _query["cursor"] = request.Cursor;
+        }
         if (request.Search != null)
         {
             _query["search"] = request.Search;
+        }
+        if (request.Sort != null)
+        {
+            _query["sort"] = request.Sort.Value.Stringify();
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +59,11 @@ public partial class RolesClient : IRolesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetRolesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RoleListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +95,7 @@ public partial class RolesClient : IRolesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,11 +103,14 @@ public partial class RolesClient : IRolesClient
         }
     }
 
+    /// <summary>
+    /// Create a new role.
+    /// </summary>
     /// <example><code>
-    /// await client.Roles.CreateARoleAsync(new PostRolesRequest { Name = "name" });
+    /// await client.Roles.CreateAsync(new CreateRolesRequest { Name = "name" });
     /// </code></example>
-    public async Task<PostRolesResponse> CreateARoleAsync(
-        PostRolesRequest request,
+    public async Task<RoleResponse> CreateAsync(
+        CreateRolesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -124,11 +134,11 @@ public partial class RolesClient : IRolesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostRolesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RoleResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -164,7 +174,7 @@ public partial class RolesClient : IRolesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -172,11 +182,14 @@ public partial class RolesClient : IRolesClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a role by ID or slug (if supported).
+    /// </summary>
     /// <example><code>
-    /// await client.Roles.GetARoleAsync(new GetRolesIdRequest { Id = "id" });
+    /// await client.Roles.RetrieveAsync(new RetrieveRolesRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetRolesIdResponse> GetARoleAsync(
-        GetRolesIdRequest request,
+    public async Task<RoleResponse> RetrieveAsync(
+        RetrieveRolesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -201,11 +214,11 @@ public partial class RolesClient : IRolesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetRolesIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RoleResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -239,7 +252,7 @@ public partial class RolesClient : IRolesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -247,11 +260,14 @@ public partial class RolesClient : IRolesClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a role.
+    /// </summary>
     /// <example><code>
-    /// await client.Roles.DeleteARoleAsync(new DeleteRolesIdRequest { Id = "id" });
+    /// await client.Roles.DeleteAsync(new DeleteRolesRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteRolesIdResponse> DeleteARoleAsync(
-        DeleteRolesIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteRolesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -276,11 +292,11 @@ public partial class RolesClient : IRolesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteRolesIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -314,7 +330,7 @@ public partial class RolesClient : IRolesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -322,11 +338,14 @@ public partial class RolesClient : IRolesClient
         }
     }
 
+    /// <summary>
+    /// Update an existing role. Only provided fields will be modified.
+    /// </summary>
     /// <example><code>
-    /// await client.Roles.UpdateARoleAsync(new PatchRolesIdRequest { Id = "id" });
+    /// await client.Roles.UpdateAsync(new UpdateRolesRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchRolesIdResponse> UpdateARoleAsync(
-        PatchRolesIdRequest request,
+    public async Task<UpdateRolesResponse> UpdateAsync(
+        UpdateRolesRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -353,11 +372,11 @@ public partial class RolesClient : IRolesClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchRolesIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdateRolesResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -395,7 +414,7 @@ public partial class RolesClient : IRolesClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

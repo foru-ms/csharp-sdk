@@ -11,7 +11,7 @@ public class BaseMockServerTest
 {
     protected static WireMockServer Server { get; set; } = null!;
 
-    protected static ForuMsApiClient Client { get; set; } = null!;
+    protected static ForumClientClient Client { get; set; } = null!;
 
     protected static RequestOptions RequestOptions { get; set; } = new();
 
@@ -24,7 +24,7 @@ public class BaseMockServerTest
         );
 
         // Initialize the Client
-        Client = new ForuMsApiClient(
+        Client = new ForumClientClient(
             "API_KEY",
             clientOptions: new ClientOptions { BaseUrl = Server.Urls[0], MaxRetries = 0 }
         );

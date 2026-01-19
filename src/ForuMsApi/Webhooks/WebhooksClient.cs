@@ -12,27 +12,28 @@ public partial class WebhooksClient : IWebhooksClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of webhooks. Use cursor for pagination.
+    ///
+    /// **Requires feature: webhooks**
+    /// </summary>
     /// <example><code>
-    /// await client.Webhooks.ListAllWebhooksAsync(new GetWebhooksRequest());
+    /// await client.Webhooks.ListAsync(new ListWebhooksRequest());
     /// </code></example>
-    public async Task<GetWebhooksResponse> ListAllWebhooksAsync(
-        GetWebhooksRequest request,
+    public async Task<WebhookListResponse> ListAsync(
+        ListWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
         }
-        if (request.Search != null)
+        if (request.Cursor != null)
         {
-            _query["search"] = request.Search;
+            _query["cursor"] = request.Cursor;
         }
         var response = await _client
             .SendRequestAsync(
@@ -52,11 +53,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetWebhooksResponse>(responseBody)!;
+                return JsonUtils.Deserialize<WebhookListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +89,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,9 +97,14 @@ public partial class WebhooksClient : IWebhooksClient
         }
     }
 
+    /// <summary>
+    /// Create a new webhook.
+    ///
+    /// **Requires feature: webhooks**
+    /// </summary>
     /// <example><code>
-    /// await client.Webhooks.CreateAWebhookAsync(
-    ///     new PostWebhooksRequest
+    /// await client.Webhooks.CreateAsync(
+    ///     new CreateWebhooksRequest
     ///     {
     ///         Name = "name",
     ///         Url = "url",
@@ -106,8 +112,8 @@ public partial class WebhooksClient : IWebhooksClient
     ///     }
     /// );
     /// </code></example>
-    public async Task<PostWebhooksResponse> CreateAWebhookAsync(
-        PostWebhooksRequest request,
+    public async Task<WebhookResponse> CreateAsync(
+        CreateWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -131,11 +137,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostWebhooksResponse>(responseBody)!;
+                return JsonUtils.Deserialize<WebhookResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -171,7 +177,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -179,11 +185,16 @@ public partial class WebhooksClient : IWebhooksClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a webhook by ID or slug (if supported).
+    ///
+    /// **Requires feature: webhooks**
+    /// </summary>
     /// <example><code>
-    /// await client.Webhooks.GetAWebhookAsync(new GetWebhooksIdRequest { Id = "id" });
+    /// await client.Webhooks.RetrieveAsync(new RetrieveWebhooksRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetWebhooksIdResponse> GetAWebhookAsync(
-        GetWebhooksIdRequest request,
+    public async Task<WebhookResponse> RetrieveAsync(
+        RetrieveWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -208,11 +219,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetWebhooksIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<WebhookResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -246,7 +257,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -254,11 +265,16 @@ public partial class WebhooksClient : IWebhooksClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a webhook.
+    ///
+    /// **Requires feature: webhooks**
+    /// </summary>
     /// <example><code>
-    /// await client.Webhooks.DeleteAWebhookAsync(new DeleteWebhooksIdRequest { Id = "id" });
+    /// await client.Webhooks.DeleteAsync(new DeleteWebhooksRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteWebhooksIdResponse> DeleteAWebhookAsync(
-        DeleteWebhooksIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -283,11 +299,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteWebhooksIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -321,7 +337,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -329,11 +345,102 @@ public partial class WebhooksClient : IWebhooksClient
         }
     }
 
+    /// <summary>
+    /// Update an existing webhook. Only provided fields will be modified.
+    ///
+    /// **Requires feature: webhooks**
+    /// </summary>
     /// <example><code>
-    /// await client.Webhooks.ListWebhookDeliveriesAsync(new GetWebhooksIdDeliveriesRequest { Id = "id" });
+    /// await client.Webhooks.UpdateAsync(new UpdateWebhooksRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetWebhooksIdDeliveriesResponse> ListWebhookDeliveriesAsync(
-        GetWebhooksIdDeliveriesRequest request,
+    public async Task<UpdateWebhooksResponse> UpdateAsync(
+        UpdateWebhooksRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var response = await _client
+            .SendRequestAsync(
+                new JsonRequest
+                {
+                    BaseUrl = _client.Options.BaseUrl,
+                    Method = HttpMethodExtensions.Patch,
+                    Path = string.Format(
+                        "webhooks/{0}",
+                        ValueConvert.ToPathParameterString(request.Id)
+                    ),
+                    Body = request,
+                    ContentType = "application/json",
+                    Options = options,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        if (response.StatusCode is >= 200 and < 400)
+        {
+            var responseBody = await response.Raw.Content.ReadAsStringAsync();
+            try
+            {
+                return JsonUtils.Deserialize<UpdateWebhooksResponse>(responseBody)!;
+            }
+            catch (JsonException e)
+            {
+                throw new ForumClientException("Failed to deserialize response", e);
+            }
+        }
+
+        {
+            var responseBody = await response.Raw.Content.ReadAsStringAsync();
+            try
+            {
+                switch (response.StatusCode)
+                {
+                    case 400:
+                        throw new BadRequestError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 401:
+                        throw new UnauthorizedError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 402:
+                        throw new PaymentRequiredError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 404:
+                        throw new NotFoundError(JsonUtils.Deserialize<ErrorResponse>(responseBody));
+                    case 429:
+                        throw new TooManyRequestsError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 500:
+                        throw new InternalServerError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                }
+            }
+            catch (JsonException)
+            {
+                // unable to map error response, throwing generic error
+            }
+            throw new ForumClientApiException(
+                $"Error with status code {response.StatusCode}",
+                response.StatusCode,
+                responseBody
+            );
+        }
+    }
+
+    /// <summary>
+    /// Retrieve a paginated list of deliveries for Webhook.
+    ///
+    /// **Requires feature: webhooks**
+    /// </summary>
+    /// <example><code>
+    /// await client.Webhooks.ListDeliveriesAsync(new ListDeliveriesWebhooksRequest { Id = "id" });
+    /// </code></example>
+    public async Task<WebhookDeliveryListResponse> ListDeliveriesAsync(
+        ListDeliveriesWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -368,11 +475,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetWebhooksIdDeliveriesResponse>(responseBody)!;
+                return JsonUtils.Deserialize<WebhookDeliveryListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -402,7 +509,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -411,12 +518,12 @@ public partial class WebhooksClient : IWebhooksClient
     }
 
     /// <example><code>
-    /// await client.Webhooks.GetADeliveryFromWebhookAsync(
-    ///     new GetWebhooksIdDeliveriesSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Webhooks.RetrieveDeliveryAsync(
+    ///     new RetrieveDeliveryWebhooksRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetWebhooksIdDeliveriesSubIdResponse> GetADeliveryFromWebhookAsync(
-        GetWebhooksIdDeliveriesSubIdRequest request,
+    public async Task<RetrieveDeliveryWebhooksResponse> RetrieveDeliveryAsync(
+        RetrieveDeliveryWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -442,11 +549,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetWebhooksIdDeliveriesSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrieveDeliveryWebhooksResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -476,7 +583,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -485,12 +592,12 @@ public partial class WebhooksClient : IWebhooksClient
     }
 
     /// <example><code>
-    /// await client.Webhooks.DeleteADeliveryFromWebhookAsync(
-    ///     new DeleteWebhooksIdDeliveriesSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Webhooks.DeleteDeliveryAsync(
+    ///     new DeleteDeliveryWebhooksRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<DeleteWebhooksIdDeliveriesSubIdResponse> DeleteADeliveryFromWebhookAsync(
-        DeleteWebhooksIdDeliveriesSubIdRequest request,
+    public async Task<SuccessResponse> DeleteDeliveryAsync(
+        DeleteDeliveryWebhooksRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -516,13 +623,11 @@ public partial class WebhooksClient : IWebhooksClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteWebhooksIdDeliveriesSubIdResponse>(
-                    responseBody
-                )!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -552,7 +657,7 @@ public partial class WebhooksClient : IWebhooksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

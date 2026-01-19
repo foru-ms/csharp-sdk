@@ -12,23 +12,26 @@ public partial class TagsClient : ITagsClient
         _client = client;
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of tags. Use cursor for pagination.
+    /// </summary>
     /// <example><code>
-    /// await client.Tags.ListAllTagsAsync(new GetTagsRequest());
+    /// await client.Tags.ListAsync(new ListTagsRequest());
     /// </code></example>
-    public async Task<GetTagsResponse> ListAllTagsAsync(
-        GetTagsRequest request,
+    public async Task<TagListResponse> ListAsync(
+        ListTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Page != null)
-        {
-            _query["page"] = request.Page.Value.ToString();
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
+        }
+        if (request.Cursor != null)
+        {
+            _query["cursor"] = request.Cursor;
         }
         if (request.Search != null)
         {
@@ -52,11 +55,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetTagsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<TagListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -88,7 +91,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -96,11 +99,14 @@ public partial class TagsClient : ITagsClient
         }
     }
 
+    /// <summary>
+    /// Create a new tag.
+    /// </summary>
     /// <example><code>
-    /// await client.Tags.CreateATagAsync(new PostTagsRequest { Name = "name" });
+    /// await client.Tags.CreateAsync(new CreateTagsRequest { Name = "name" });
     /// </code></example>
-    public async Task<PostTagsResponse> CreateATagAsync(
-        PostTagsRequest request,
+    public async Task<TagResponse> CreateAsync(
+        CreateTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -124,11 +130,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostTagsResponse>(responseBody)!;
+                return JsonUtils.Deserialize<TagResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -164,7 +170,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -172,11 +178,14 @@ public partial class TagsClient : ITagsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a tag by ID or slug (if supported).
+    /// </summary>
     /// <example><code>
-    /// await client.Tags.GetATagAsync(new GetTagsIdRequest { Id = "id" });
+    /// await client.Tags.RetrieveAsync(new RetrieveTagsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetTagsIdResponse> GetATagAsync(
-        GetTagsIdRequest request,
+    public async Task<TagResponse> RetrieveAsync(
+        RetrieveTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -201,11 +210,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetTagsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<TagResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -239,7 +248,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -247,11 +256,14 @@ public partial class TagsClient : ITagsClient
         }
     }
 
+    /// <summary>
+    /// Permanently delete a tag.
+    /// </summary>
     /// <example><code>
-    /// await client.Tags.DeleteATagAsync(new DeleteTagsIdRequest { Id = "id" });
+    /// await client.Tags.DeleteAsync(new DeleteTagsRequest { Id = "id" });
     /// </code></example>
-    public async Task<DeleteTagsIdResponse> DeleteATagAsync(
-        DeleteTagsIdRequest request,
+    public async Task<SuccessResponse> DeleteAsync(
+        DeleteTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -276,11 +288,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteTagsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -314,7 +326,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -322,11 +334,14 @@ public partial class TagsClient : ITagsClient
         }
     }
 
+    /// <summary>
+    /// Update an existing tag. Only provided fields will be modified.
+    /// </summary>
     /// <example><code>
-    /// await client.Tags.UpdateATagAsync(new PatchTagsIdRequest { Id = "id" });
+    /// await client.Tags.UpdateAsync(new UpdateTagsRequest { Id = "id" });
     /// </code></example>
-    public async Task<PatchTagsIdResponse> UpdateATagAsync(
-        PatchTagsIdRequest request,
+    public async Task<UpdateTagsResponse> UpdateAsync(
+        UpdateTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -353,11 +368,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PatchTagsIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<UpdateTagsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -395,7 +410,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -403,23 +418,26 @@ public partial class TagsClient : ITagsClient
         }
     }
 
+    /// <summary>
+    /// Retrieve a paginated list of subscribers for Tag.
+    /// </summary>
     /// <example><code>
-    /// await client.Tags.ListTagSubscribersAsync(new GetTagsIdSubscribersRequest { Id = "id" });
+    /// await client.Tags.ListSubscribersAsync(new ListSubscribersTagsRequest { Id = "id" });
     /// </code></example>
-    public async Task<GetTagsIdSubscribersResponse> ListTagSubscribersAsync(
-        GetTagsIdSubscribersRequest request,
+    public async Task<TagSubscriberListResponse> ListSubscribersAsync(
+        ListSubscribersTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
     {
         var _query = new Dictionary<string, object>();
-        if (request.Cursor != null)
-        {
-            _query["cursor"] = request.Cursor;
-        }
         if (request.Limit != null)
         {
             _query["limit"] = request.Limit.Value.ToString();
+        }
+        if (request.Cursor != null)
+        {
+            _query["cursor"] = request.Cursor;
         }
         var response = await _client
             .SendRequestAsync(
@@ -442,11 +460,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetTagsIdSubscribersResponse>(responseBody)!;
+                return JsonUtils.Deserialize<TagSubscriberListResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -476,7 +494,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -485,12 +503,12 @@ public partial class TagsClient : ITagsClient
     }
 
     /// <example><code>
-    /// await client.Tags.GetASubscriberFromTagAsync(
-    ///     new GetTagsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Tags.RetrieveSubscriberAsync(
+    ///     new RetrieveSubscriberTagsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<GetTagsIdSubscribersSubIdResponse> GetASubscriberFromTagAsync(
-        GetTagsIdSubscribersSubIdRequest request,
+    public async Task<RetrieveSubscriberTagsResponse> RetrieveSubscriberAsync(
+        RetrieveSubscriberTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -516,11 +534,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetTagsIdSubscribersSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RetrieveSubscriberTagsResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -550,7 +568,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -559,12 +577,12 @@ public partial class TagsClient : ITagsClient
     }
 
     /// <example><code>
-    /// await client.Tags.DeleteASubscriberFromTagAsync(
-    ///     new DeleteTagsIdSubscribersSubIdRequest { Id = "id", SubId = "subId" }
+    /// await client.Tags.DeleteSubscriberAsync(
+    ///     new DeleteSubscriberTagsRequest { Id = "id", SubId = "subId" }
     /// );
     /// </code></example>
-    public async Task<DeleteTagsIdSubscribersSubIdResponse> DeleteASubscriberFromTagAsync(
-        DeleteTagsIdSubscribersSubIdRequest request,
+    public async Task<SuccessResponse> DeleteSubscriberAsync(
+        DeleteSubscriberTagsRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -590,11 +608,11 @@ public partial class TagsClient : ITagsClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<DeleteTagsIdSubscribersSubIdResponse>(responseBody)!;
+                return JsonUtils.Deserialize<SuccessResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -624,7 +642,7 @@ public partial class TagsClient : ITagsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

@@ -5,7 +5,7 @@ namespace ForuMsApi;
 /// </summary>
 [Serializable]
 public class TooManyRequestsError(ErrorResponse body)
-    : ForuMsApiApiException("TooManyRequestsError", 429, body)
+    : ForumClientApiException("TooManyRequestsError", 429, body)
 {
     /// <summary>
     /// The body of the response that triggered the exception.

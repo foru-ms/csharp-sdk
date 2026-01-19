@@ -12,9 +12,12 @@ public partial class AuthClient : IAuthClient
         _client = client;
     }
 
+    /// <summary>
+    /// Register a new user in your forum instance. Requires API key for instance identification. Returns a JWT token for subsequent authenticated requests.
+    /// </summary>
     /// <example><code>
     /// await client.Auth.RegisterAsync(
-    ///     new PostAuthRegisterRequest
+    ///     new RegisterAuthRequest
     ///     {
     ///         Username = "username",
     ///         Email = "email",
@@ -22,8 +25,8 @@ public partial class AuthClient : IAuthClient
     ///     }
     /// );
     /// </code></example>
-    public async Task<PostAuthRegisterResponse> RegisterAsync(
-        PostAuthRegisterRequest request,
+    public async Task<RegisterResponse> RegisterAsync(
+        RegisterAuthRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -47,11 +50,11 @@ public partial class AuthClient : IAuthClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostAuthRegisterResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RegisterResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -63,6 +66,10 @@ public partial class AuthClient : IAuthClient
                 {
                     case 400:
                         throw new BadRequestError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 401:
+                        throw new UnauthorizedError(
                             JsonUtils.Deserialize<ErrorResponse>(responseBody)
                         );
                     case 402:
@@ -83,7 +90,7 @@ public partial class AuthClient : IAuthClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -91,11 +98,14 @@ public partial class AuthClient : IAuthClient
         }
     }
 
+    /// <summary>
+    /// Authenticate an existing user. Requires API key for instance identification. Returns a JWT token for subsequent authenticated requests.
+    /// </summary>
     /// <example><code>
-    /// await client.Auth.LoginAsync(new PostAuthLoginRequest { Login = "login", Password = "password" });
+    /// await client.Auth.LoginAsync(new LoginAuthRequest { Login = "login", Password = "password" });
     /// </code></example>
-    public async Task<PostAuthLoginResponse> LoginAsync(
-        PostAuthLoginRequest request,
+    public async Task<LoginResponse> LoginAsync(
+        LoginAuthRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -119,11 +129,11 @@ public partial class AuthClient : IAuthClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostAuthLoginResponse>(responseBody)!;
+                return JsonUtils.Deserialize<LoginResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -135,6 +145,10 @@ public partial class AuthClient : IAuthClient
                 {
                     case 400:
                         throw new BadRequestError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 401:
+                        throw new UnauthorizedError(
                             JsonUtils.Deserialize<ErrorResponse>(responseBody)
                         );
                     case 402:
@@ -155,7 +169,7 @@ public partial class AuthClient : IAuthClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -164,9 +178,9 @@ public partial class AuthClient : IAuthClient
     }
 
     /// <example><code>
-    /// await client.Auth.GetCurrentUserAsync();
+    /// await client.Auth.MeAsync();
     /// </code></example>
-    public async Task<GetAuthMeResponse> GetCurrentUserAsync(
+    public async Task<MeResponse> MeAsync(
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -188,11 +202,11 @@ public partial class AuthClient : IAuthClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<GetAuthMeResponse>(responseBody)!;
+                return JsonUtils.Deserialize<MeResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -224,7 +238,7 @@ public partial class AuthClient : IAuthClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -232,11 +246,14 @@ public partial class AuthClient : IAuthClient
         }
     }
 
+    /// <summary>
+    /// Request a password reset email. Requires API key for instance identification.
+    /// </summary>
     /// <example><code>
-    /// await client.Auth.RequestPasswordResetAsync(new PostAuthForgotPasswordRequest { Email = "email" });
+    /// await client.Auth.ForgotPasswordAsync(new ForgotPasswordAuthRequest { Email = "email" });
     /// </code></example>
-    public async Task<PostAuthForgotPasswordResponse> RequestPasswordResetAsync(
-        PostAuthForgotPasswordRequest request,
+    public async Task<ForgotPasswordResponse> ForgotPasswordAsync(
+        ForgotPasswordAuthRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -260,11 +277,11 @@ public partial class AuthClient : IAuthClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostAuthForgotPasswordResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ForgotPasswordResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -276,6 +293,10 @@ public partial class AuthClient : IAuthClient
                 {
                     case 400:
                         throw new BadRequestError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 401:
+                        throw new UnauthorizedError(
                             JsonUtils.Deserialize<ErrorResponse>(responseBody)
                         );
                     case 402:
@@ -296,7 +317,7 @@ public partial class AuthClient : IAuthClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody
@@ -304,11 +325,14 @@ public partial class AuthClient : IAuthClient
         }
     }
 
+    /// <summary>
+    /// Reset password using a reset token. Requires API key for instance identification.
+    /// </summary>
     /// <example><code>
-    /// await client.Auth.ResetPasswordAsync(new PostAuthResetPasswordRequest { Password = "password" });
+    /// await client.Auth.ResetPasswordAsync(new ResetPasswordAuthRequest { Password = "password" });
     /// </code></example>
-    public async Task<PostAuthResetPasswordResponse> ResetPasswordAsync(
-        PostAuthResetPasswordRequest request,
+    public async Task<ResetPasswordResponse> ResetPasswordAsync(
+        ResetPasswordAuthRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -332,11 +356,11 @@ public partial class AuthClient : IAuthClient
             var responseBody = await response.Raw.Content.ReadAsStringAsync();
             try
             {
-                return JsonUtils.Deserialize<PostAuthResetPasswordResponse>(responseBody)!;
+                return JsonUtils.Deserialize<ResetPasswordResponse>(responseBody)!;
             }
             catch (JsonException e)
             {
-                throw new ForuMsApiException("Failed to deserialize response", e);
+                throw new ForumClientException("Failed to deserialize response", e);
             }
         }
 
@@ -348,6 +372,10 @@ public partial class AuthClient : IAuthClient
                 {
                     case 400:
                         throw new BadRequestError(
+                            JsonUtils.Deserialize<ErrorResponse>(responseBody)
+                        );
+                    case 401:
+                        throw new UnauthorizedError(
                             JsonUtils.Deserialize<ErrorResponse>(responseBody)
                         );
                     case 402:
@@ -368,7 +396,7 @@ public partial class AuthClient : IAuthClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ForuMsApiApiException(
+            throw new ForumClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody

@@ -5,7 +5,7 @@ namespace ForuMsApi;
 /// </summary>
 [Serializable]
 public class UnauthorizedError(ErrorResponse body)
-    : ForuMsApiApiException("UnauthorizedError", 401, body)
+    : ForumClientApiException("UnauthorizedError", 401, body)
 {
     /// <summary>
     /// The body of the response that triggered the exception.
